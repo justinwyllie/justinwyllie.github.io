@@ -6,7 +6,8 @@ import ErrorMessageDisplay from "../../../REACT-FE/src/Components/Components";
 import { CapitalizeFirstLetter } from "../../../REACT-FE/src/helpers";
 import reactStringReplace from '../../../REACT-FE/src/Utilities/react-string-replace-with-index';
 import {  Check, X, Plus, Dash} from 'react-bootstrap-icons';
-import { base64 } from "base-64";
+//import { base64 } from "base-64";
+var base64 = require('base-64');
 
 const DOMAIN = "dev.kazanenglishacademy.com";
 
