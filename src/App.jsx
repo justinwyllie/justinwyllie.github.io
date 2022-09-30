@@ -21,6 +21,9 @@ const App = () => {
  import vle gap fill and pass it props 
  obtain the needed props by a fetch call in a wrapper so they are up to date
  this app should just wrap gapfill
+  get the slug dynamically 
+  email the results! (this is one reason to integrate it into the schools google domain.. 
+    or they have to sign in with google?)
 */
 
 const GapFillExercise = (props) =>
@@ -449,6 +452,7 @@ const GapFillExercise = (props) =>
     },[exercise, grammarTermsKeyed]);    //TODO detect change to userSettings as well...    
 
     useEffect(() => {
+        let headers = new Headers(); //browser api?
         headers.set('Authorization', 'Basic ' + base64.encode('dev' + ":" + 'hjgyt65$!H'));
         fetch('//' + DOMAIN + '/wp-json/wp/v2/activity_gap_fills?slug=' + slug + '&data=json',
         {
