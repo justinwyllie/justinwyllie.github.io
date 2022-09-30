@@ -6,8 +6,7 @@ import ErrorMessageDisplay from "../../../REACT-FE/src/Components/Components";
 import { CapitalizeFirstLetter } from "../../../REACT-FE/src/helpers";
 import reactStringReplace from '../../../REACT-FE/src/Utilities/react-string-replace-with-index';
 import {  Check, X, Plus, Dash} from 'react-bootstrap-icons';
-//import { base64 } from "base-64";
-var base64 = require('base-64');
+import { Base64 } from 'base64-string';
 
 const DOMAIN = "dev.kazanenglishacademy.com";
 
@@ -454,8 +453,9 @@ const GapFillExercise = (props) =>
     },[exercise, grammarTermsKeyed]);    //TODO detect change to userSettings as well...    
 
     useEffect(() => {
+        const enc = new Base64();
         let headers = new Headers(); //browser api?
-        headers.set('Authorization', 'Basic ' + base64.encode('dev' + ":" + 'hjgyt65$!H'));
+        headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H'));
         fetch('//' + DOMAIN + '/wp-json/wp/v2/activity_gap_fills?slug=' + slug + '&data=json',
         {
             method:'GET', 
