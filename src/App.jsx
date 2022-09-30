@@ -456,11 +456,10 @@ const GapFillExercise = (props) =>
         const enc = new Base64();
         let headers = new Headers(); //browser api?
         headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H'));
-        //fetch('http://' + DOMAIN + '/wp-json/wp/v2/activity_gap_fills?slug=' + slug + '&data=json',
-        fetch('https://online.kazanenglishacademy.com/test.php',
+        fetch('http://' + DOMAIN + '/wp-json/wp/v2/activity_gap_fills?slug=' + slug + '&data=json',
         {
-            method:'GET' 
-            
+            method:'GET', 
+            headers: headers
         })
             .then(response => response.json())
             .then(data => 
