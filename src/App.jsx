@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 
-import {  LABELS } from "../../../REACT-FE/src/Constants";
-import ErrorMessageDisplay from "../../../REACT-FE/src/Components/Components";
-import { CapitalizeFirstLetter } from "../../../REACT-FE/src/helpers";
-import reactStringReplace from '../../../REACT-FE/src/Utilities/react-string-replace-with-index';
+import {  LABELS } from "./Constants";
+import ErrorMessageDisplay from "./Components/Components";
+import { CapitalizeFirstLetter } from "./helpers";
+import reactStringReplace from './Utilities/react-string-replace-with-index';
 import {  Check, X, Plus, Dash} from 'react-bootstrap-icons';
 import { Base64 } from 'base64-string';
 

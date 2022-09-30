@@ -6,6 +6,7 @@ ehthumbs_vista.db
 # Folder config file
 Desktop.ini
 node_modules
+src
 THEMES/plugins/kea_activities/build/*.*
 
 
