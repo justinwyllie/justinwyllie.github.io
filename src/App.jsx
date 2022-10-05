@@ -3,12 +3,16 @@ import Button from 'react-bootstrap/Button';
 
 import {  LABELS } from "./Constants";
 import ErrorMessageDisplay from "./Components/Components";
-import { CapitalizeFirstLetter } from "./helpers";
+//import { CapitalizeFirstLetter } from "./helpers";
 import reactStringReplace from './Utilities/react-string-replace-with-index';
 import {  Check, X, Plus, Dash} from 'react-bootstrap-icons';
 import { Base64 } from 'base64-string';
 
 const DOMAIN = "dev.kazanenglishacademy.com";
+
+const CapitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 const App = () => {
 
@@ -19,6 +23,8 @@ const App = () => {
 }
 
 /* TODO
+bring all comps into this file, delete all modules and then reexport
+
  import vle gap fill and pass it props 
  obtain the needed props by a fetch call in a wrapper so they are up to date
  this app should just wrap gapfill
@@ -398,7 +404,8 @@ const GapFillExercise = (props) =>
     const processMeta = (metaData) =>
     {
         const meta = JSON.parse(metaData);
-  
+        const loc = window.location.pathname;
+        console.log("loc", loc);
         
         let qLength;
         let qaPairs = {};
@@ -450,7 +457,7 @@ const GapFillExercise = (props) =>
             setGrammarTags(tags);
         }
 
-    },[exercise, grammarTermsKeyed]);    //TODO detect change to userSettings as well...    
+    },[exercise]);    //TODO detect change to userSettings as well...    
 
     useEffect(() => {
         const enc = new Base64();
