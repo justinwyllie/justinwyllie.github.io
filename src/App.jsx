@@ -467,6 +467,7 @@ const GapFillExercise = (props) =>
         //fetch("https://dev.kazanenglishacademy.com/test.php",
         {
             method:'GET',
+            credentials: include,
             headers: headers
             
         })
