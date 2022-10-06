@@ -466,8 +466,8 @@ const GapFillExercise = (props) =>
         fetch('https://dev.kazanenglishacademy.com/wp-json/wp/v2/activity_gap_fills?slug=' + slug + '&data=json',
         //fetch("https://dev.kazanenglishacademy.com/test.php",
         {
-            method:'GET',
-            headers: headers
+            method:'GET'
+            
             
         })
             .then(response => response.json())
