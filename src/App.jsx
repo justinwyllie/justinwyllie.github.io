@@ -464,10 +464,10 @@ const GapFillExercise = (props) =>
         const enc = new Base64();
         let headers = new Headers(); //browser api?
         headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
+        //preflight does not send creds so need to fix server not to require creds for OPTIONS
         fetch('https://dev.kazanenglishacademy.com/wp-json/wp/v2/activity_gap_fills?slug=' + slug + '&data=json',
         {
             method:'GET',
-            credentials: 'include',
             headers: headers
             
         })
