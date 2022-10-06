@@ -458,13 +458,13 @@ const GapFillExercise = (props) =>
         }
 
     },[exercise]);    //TODO detect change to userSettings as well...    
-
+    //fetch("https://dev.kazanenglishacademy.com/test.php",
+    
     useEffect(() => {
         const enc = new Base64();
         let headers = new Headers(); //browser api?
         headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
         fetch('https://dev.kazanenglishacademy.com/wp-json/wp/v2/activity_gap_fills?slug=' + slug + '&data=json',
-        //fetch("https://dev.kazanenglishacademy.com/test.php",
         {
             method:'GET',
             credentials: include,
