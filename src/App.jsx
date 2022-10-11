@@ -302,7 +302,7 @@ const GapFillExercise = (props) =>
 
     return (
         error ? <ErrorMessageDisplay message={errorMessage} />
-        : <div>
+        : <div className="mb-3">
             <h1 className="text-center">{meta ?  meta.title : ''}</h1>
             <div >
                 <div>
