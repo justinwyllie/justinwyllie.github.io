@@ -4,7 +4,6 @@ const webpack = require("webpack");
 module.exports = {
   entry: "./src/index.js",
   mode: "development",
-  devtool: 'inline-source-map', /* TODO - investigate this option so as to get source maps in dev */
   module: {
     rules: [
       {
@@ -16,25 +15,7 @@ module.exports = {
       {
          test: /\.(svg)$/i,
          type: 'asset/resource'
-       },
-       {
-        test: /\.scss$/i,
-        use: [
-         "style-loader",
-         {
-           loader: "css-loader",
-           options: {
-             sourceMap: false
-           },
-         },
-         {
-           loader: "sass-loader",
-           options: {
-             sourceMap: false,
-           },
-         },
-       ],
-      }
+       }
   
     ]
   },
