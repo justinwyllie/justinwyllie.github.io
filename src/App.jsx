@@ -464,7 +464,8 @@ const GapFillExercise = (props) =>
         const enc = new Base64();
         let headers = new Headers(); //browser api?
         headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
-        //preflight does not send creds so need to fix server not to require creds for OPTIONS
+        //preflight does not send creds so need to fix server not to require creds for OPTIONS 
+        //
         fetch('https://dev.kazanenglishacademy.com/wp-json/wp/v2/activity_gap_fills?slug=' + slug + '&data=json',
         {
             method:'GET',
@@ -511,7 +512,7 @@ const GapFillExercise = (props) =>
     return (
         error ? <ErrorMessageDisplay message={errorMessage} />
         : <div>
-            <h1>{meta ?  meta.title : ''}</h1>
+            <h1 className="text-center">{meta ?  meta.title : ''}</h1>
             <div >
                 <div>
                     {/* TODO langs from constants/deployment config - nb also used in language-blocks */}
