@@ -302,7 +302,7 @@ const GapFillExercise = (props) =>
 
     return (
         error ? <ErrorMessageDisplay message={errorMessage} />
-        : <div className="mb-3">
+        : <div >
             <h1 className="text-center">{meta ?  meta.title : ''}</h1>
             <div >
                 <div>
@@ -326,10 +326,10 @@ const GapFillExercise = (props) =>
                 </div>
             </div>  
       
-            <div className="grammar-tags mt-3">{grammarTags.map( (tag, idx) => 
+            <div className="grammar-tags mt-3 pb-3">{grammarTags.map( (tag, idx) => 
                 <span className="badge rounded-pill bg-info text-dark" key={idx}>{tag}</span>
             )}</div>
-      
+            
         </div>
     )
 
