@@ -64,10 +64,8 @@ const Data = () => {
         
         error
             ? <ErrorMessageDisplay message={errorMessage} />
-            : <GapFillExercise 
-                grammarTermsKeyed={grammarTerms}
-                {...props} />
-    );
+            : <GapFillExercise grammarTermsKeyed={grammarTerms} />
+        );
     
  
      
