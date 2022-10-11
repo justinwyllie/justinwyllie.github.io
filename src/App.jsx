@@ -46,7 +46,7 @@ const Data = () => {
                 {
                     const grammarTermsKeyed = {};
                     data.forEach((term) => {
-                        data[term.id] = {description: term.description, 
+                        grammarTermsKeyed[term.id] = {description: term.description, 
                             count: term.count, 
                             slug: term.slug};
                     });
