@@ -17,8 +17,60 @@ const CapitalizeFirstLetter = (string) => {
 const App = () => {
 
     return <>
-        <GapFillExercise></GapFillExercise>
+        <Data></Data>
     </>
+
+}
+
+const Data = () => {
+
+    const [grammarTerms, setGrammarTerms] = useState(null);
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        //TODO - we have a problem when we have > 100 
+        const enc = new Base64();
+        let headers = new Headers(); //browser api?
+        headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
+        //preflight does not send creds so need to fix server not to require creds for OPTIONS 
+        //did this use an If - request check to only check for creds if not options
+        fetch('https://' + DOMAIN + '/wp-json/wp/v2/grammar_terms?per_page=100',
+        {
+            method:'GET',
+            headers: headers
+            
+        })
+        .then(response => response.json())
+        .then(data =>  
+                {
+                    const grammarTermsKeyed = {};
+                    data.forEach((term) => {
+                        data[term.id] = {description: term.description, 
+                            count: term.count, 
+                            slug: term.slug};
+                    });
+                    setGrammarTerms(grammarTermsKeyed);
+                }    
+        ).catch(function (error) {
+            setError(true);
+            setErrorMessage(error.message);
+        });
+
+
+    }, []);
+
+    return(
+        
+        error
+            ? <ErrorMessageDisplay message={errorMessage} />
+            : <GapFillExercise 
+                grammarTermsKeyed={grammarTerms}
+                {...props} />
+    );
+    
+ 
+     
 
 }
 
@@ -32,6 +84,11 @@ bring all comps into this file, delete all modules and then reexport
   email the results! (this is one reason to integrate it into the schools google domain.. 
     or they have to sign in with google?)
 */
+
+
+
+
+
 
 const GapFillExercise = (props) =>
 {
@@ -49,275 +106,12 @@ const GapFillExercise = (props) =>
     const slug = loc.search.substring(1);
     console.log("slug", slug); 
 
-    const grammarTermsKeyed = {
-        "81": {
-            "description": "Adjectives",
-            "count": 4,
-            "slug": "adjectives"
-        },
-        "82": {
-            "description": "Tenses",
-            "count": 36,
-            "slug": "tenses"
-        },
-        "93": {
-            "description": "Present Perfect",
-            "count": 19,
-            "slug": "present-perfect"
-        },
-        "95": {
-            "description": "Conditionals",
-            "count": 10,
-            "slug": "conditionals"
-        },
-        "96": {
-            "description": "First Conditional",
-            "count": 9,
-            "slug": "first-conditional"
-        },
-        "98": {
-            "description": "Zero Conditional",
-            "count": 0,
-            "slug": "zero-conditional"
-        },
-        "99": {
-            "description": "Third Conditional",
-            "count": 2,
-            "slug": "third-conditional"
-        },
-        "100": {
-            "description": "Expressing wishes",
-            "count": 0,
-            "slug": "expressing-wishes"
-        },
-        "101": {
-            "description": "Future Forms",
-            "count": 3,
-            "slug": "future-forms"
-        },
-        "102": {
-            "description": "Going to",
-            "count": 2,
-            "slug": "going-to"
-        },
-        "103": {
-            "description": "Future Simple",
-            "count": 4,
-            "slug": "future-simple"
-        },
-        "104": {
-            "description": "Present Perfect Continuous",
-            "count": 11,
-            "slug": "present-perfect-continuous"
-        },
-        "105": {
-            "description": "Past Simple",
-            "count": 20,
-            "slug": "past-simple"
-        },
-        "106": {
-            "description": "Present Continuous",
-            "count": 7,
-            "slug": "present-continuous"
-        },
-        "107": {
-            "description": "Past Continuous",
-            "count": 7,
-            "slug": "past-continuous"
-        },
-        "108": {
-            "description": "Present Simple",
-            "count": 7,
-            "slug": "present-simple"
-        },
-        "109": {
-            "description": "Second Conditional",
-            "count": 10,
-            "slug": "second-conditional"
-        },
-        "110": {
-            "description": "Passive",
-            "count": 2,
-            "slug": "passive"
-        },
-        "111": {
-            "description": "Middle Voice",
-            "count": 0,
-            "slug": "middle-voice"
-        },
-        "112": {
-            "description": "test",
-            "count": 0,
-            "slug": "test"
-        },
-        "113": {
-            "description": "Articles",
-            "count": 1,
-            "slug": "articles"
-        },
-        "114": {
-            "description": "Past Perfect",
-            "count": 1,
-            "slug": "past-perfect"
-        },
-        "115": {
-            "description": "Order of Adjectives",
-            "count": 2,
-            "slug": "order-of-adjectives"
-        },
-        "116": {
-            "description": "Pronouns",
-            "count": 4,
-            "slug": "pronouns"
-        },
-        "117": {
-            "description": "Relative Pronouns",
-            "count": 3,
-            "slug": "relative-pronouns"
-        },
-        "118": {
-            "description": "Modal Verbs",
-            "count": 8,
-            "slug": "modal-verbs"
-        },
-        "119": {
-            "description": "Relative Clauses",
-            "count": 7,
-            "slug": "relative-clauses"
-        },
-        "120": {
-            "description": "Adverbs",
-            "count": 1,
-            "slug": "adverbs"
-        },
-        "121": {
-            "description": "Verb patterns",
-            "count": 1,
-            "slug": "verb-patterns"
-        },
-        "122": {
-            "description": "Modals of obligation and permission",
-            "count": 1,
-            "slug": "modals-of-obligation-and-permission"
-        },
-        "123": {
-            "description": "Quantity Words",
-            "count": 1,
-            "slug": "quantity-words"
-        },
-        "124": {
-            "description": "No and Not",
-            "count": 1,
-            "slug": "no-and-not"
-        },
-        "125": {
-            "description": "Future Continuous",
-            "count": 1,
-            "slug": "future-continuous"
-        },
-        "126": {
-            "description": "Future Perfect",
-            "count": 1,
-            "slug": "future-perfect"
-        },
-        "127": {
-            "description": "Comparative of Adjectives",
-            "count": 1,
-            "slug": "comparative-of-adjectives"
-        },
-        "128": {
-            "description": "Superlative of Adjectives",
-            "count": 1,
-            "slug": "superlative-of-adjectives"
-        },
-        "129": {
-            "description": "Dependent Prepositions",
-            "count": 6,
-            "slug": "dependent-prepositions"
-        },
-        "130": {
-            "description": "Question Forms",
-            "count": 1,
-            "slug": "question-forms"
-        },
-        "131": {
-            "description": "So and Such",
-            "count": 1,
-            "slug": "so-and-such"
-        },
-        "132": {
-            "description": "Object Pronouns",
-            "count": 2,
-            "slug": "object-pronouns"
-        },
-        "133": {
-            "description": "Possessive Pronouns",
-            "count": 1,
-            "slug": "possessive-pronouns"
-        },
-        "134": {
-            "description": "Prepositions",
-            "count": 3,
-            "slug": "prepositions"
-        },
-        "135": {
-            "description": "Adverbs of time",
-            "count": 1,
-            "slug": "adverbs-of-time"
-        },
-        "136": {
-            "description": "Talking about time",
-            "count": 1,
-            "slug": "talking-about-time"
-        },
-        "137": {
-            "description": "Verbs followed by the Infinitive or -ing",
-            "count": 2,
-            "slug": "verbs-followed-by-infinitive-or-ing"
-        },
-        "138": {
-            "description": "Talking about purpose",
-            "count": 2,
-            "slug": "talking-about-purpose"
-        },
-        "139": {
-            "description": "Used to, be used to, get used to",
-            "count": 3,
-            "slug": "used-to-be-used-to-get-used-to"
-        },
-        "140": {
-            "description": "There is/are",
-            "count": 0,
-            "slug": "there-is-are"
-        },
-        "141": {
-            "description": "There is - There are",
-            "count": 1,
-            "slug": "there-is-there-are"
-        },
-        "142": {
-            "description": "Quantifiers",
-            "count": 2,
-            "slug": "quantifiers"
-        },
-        "143": {
-            "description": "Phrasal Verbs",
-            "count": 5,
-            "slug": "phrasal-verbs"
-        },
-        "144": {
-            "description": "Negation",
-            "count": 0,
-            "slug": "negation"
-        }
-    };
-
+    const grammarTermsKeyed = props.grammarTermsKeyed;
+    
     const getUnLinkedCopy = (obj) =>
     {
         return structuredClone(obj);
     }
-
-   
 
     const check = () =>
     {
@@ -325,8 +119,7 @@ const GapFillExercise = (props) =>
         (Object.keys(questionAnswerSets).length >= 1) ) {
              
                 let newQuestionAnswerSets = getUnLinkedCopy(questionAnswerSets);
-
-                
+               
                 for (const qNumber in newQuestionAnswerSets)
                 {
                     newQuestionAnswerSets[qNumber].status = "correct";
@@ -415,7 +208,7 @@ const GapFillExercise = (props) =>
         let qaPairs = {};
         console.log("meta",meta );
         meta.questions.forEach((question, idx) => {
-            //HACK NEED TO FIX LANG BLOCKS TODO SO THERE IS NO TRAILING | 
+            
             let answer = question.answer.replace(/\|$/, '');
         
             const correctAnswers = answer.split('|');
@@ -439,11 +232,7 @@ const GapFillExercise = (props) =>
             }
             
         })
-        
-       
-       
-        
-
+ 
         setQuestionAnswerSets(qaPairs);
         setMeta(meta);
     }
@@ -461,7 +250,7 @@ const GapFillExercise = (props) =>
             setGrammarTags(tags);
         }
 
-    },[exercise]);    //TODO detect change to userSettings as well...    
+    },[exercise, grammarTermsKeyed]);    //TODO detect change to userSettings as well...    
     //fetch("https://dev.kazanenglishacademy.com/test.php",
     
     useEffect(() => {
@@ -469,7 +258,7 @@ const GapFillExercise = (props) =>
         let headers = new Headers(); //browser api?
         headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
         //preflight does not send creds so need to fix server not to require creds for OPTIONS 
-        //
+        //did this use an If - request check to only check for creds if not options
         fetch('https://dev.kazanenglishacademy.com/wp-json/wp/v2/activity_gap_fills?slug=' + slug + '&data=json',
         {
             method:'GET',
