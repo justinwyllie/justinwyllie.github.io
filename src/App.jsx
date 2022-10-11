@@ -40,11 +40,15 @@ const GapFillExercise = (props) =>
     const [meta, setMeta] = useState(undefined);
     const [questionAnswerSets, setQuestionAnswerSets] = useState(undefined);
     const [grammarTags, setGrammarTags] = useState([]);
-    const slug = 'superlative-form-of-adjectives'; //get this out of url. 
+    //const slug = 'superlative-form-of-adjectives'; //get this out of url. 
     const [error, setError] = useState(false);
     const [checkButtonActive, setCheckButtonActive] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const userLang = 'en';
+    const loc = window.location;
+    const slug = loc.search.substring(1);
+    console.log("slug", slug); 
+
     const grammarTermsKeyed = {
         "81": {
             "description": "Adjectives",
