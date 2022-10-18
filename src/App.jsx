@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
+import * as jose from "jose";
+window.decodeJwt = jose.decodeJwt;
 
 import {  LABELS } from "./Constants";
 import ErrorMessageDisplay from "./Components/Components";
