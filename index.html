@@ -2,6 +2,12 @@
 <html>
     <head>
         <title>Justin Wyllie English Lessons</title>
+        <script>
+            function handleLogin(data)
+            {
+                console.log("handleLogin", data);
+            }
+        </script>
         <script src="https://accounts.google.com/gsi/client" async defer></script>
     </head>
 <body>
@@ -10,7 +16,7 @@
     data-client_id="440488237448-kv307jn3dakkotv473jo716jin1enbha.apps.googleusercontent.com"
     data-context="signin"
     data-ux_mode="popup"
-    data-login_uri="https://justinwyllie.github.io/"
+    data-callback="handleLogin"
     data-auto_prompt="false">
 </div>
 
