@@ -123,7 +123,8 @@ const GapFillExercise = (props) =>
                 {
                     newQuestionAnswerSets[qNumber].status = "correct";
                     newQuestionAnswerSets[qNumber].correctAnswers.forEach( (answer, idx) => {
-                        if (newQuestionAnswerSets[qNumber].userAnswers[idx] != answer)
+                        const answerVariations = answer.split(":");
+                        if (!answerVariations.includes(newQuestionAnswerSets[qNumber].userAnswers[idx]))
                         {
                             newQuestionAnswerSets[qNumber].status = "incorrect";    
                         }
@@ -377,7 +378,8 @@ const Question = (props) =>
         {
             html = reactStringReplace(question.question, /(___)/g, (match, i) => 
             {
-                return <span key={i} className="correct-answer">{question.correctAnswers[i]}</span>
+                const answerVariants = question.correctAnswers[i].split(":");
+                return <span key={i} className="correct-answer">{answerVariants[0]}</span>
             })
         }
         else
