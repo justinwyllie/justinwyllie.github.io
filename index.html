@@ -7,11 +7,19 @@
             window.keaProfile = {};
             keaProfile.email = null;
             keaProfile.name = null;
+            //https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out
+            document.getElementById("logout").onclick = function()
+            {
+                keaProfile.email = null;
+                keaProfile.name = null;
+                //well let's check they are signed out TODO
+                google.accounts.id.disableAutoSelect();
+                document.getElementById("userName").innerHTML = "";
+                document.getElementById("logout").classList.add("d-none");
+                document.getElementById("g_id_onload").classList.remove("d-none");
+            }
             
 
-            function onSignout() {
-                google.accounts.id.disableAutoSelect();
-            }
             function decodeJwtResponse(data)
             {
                 return window.decodeJwt(data);
@@ -31,6 +39,9 @@
                 keaProfile.email = responsePayload.email;
                 responsePayload.name = responsePayload.name;
                 document.getElementById("userName").innerHTML = responsePayload.name;
+                document.getElementById("logout").classList.remove("d-none");
+                document.getElementById("g_id_onload").classList.add("d-none");
+                
             }
         </script>
         <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -63,7 +74,9 @@
 
 <div class="user" id="userName">
     
+
 </div>
+<button id="logout" class="d-none">Logout</button>
 
     <div id="root" class="container">
 
