@@ -16,18 +16,22 @@
                     var callback = function(resp)
                     {
                         console.log(resp);
-                        //well let's check they are signed out TODO
-                        keaProfile.email = null;
-                        keaProfile.name = null;
-                        keaProfile.ID = null;
-                        //?google.accounts.id.disableAutoSelect();
+                        
+                        if (resp.successful)
+                        {
+                            keaProfile.email = null;
+                            keaProfile.name = null;
+                            keaProfile.ID = null;
+                            google.accounts.id.disableAutoSelect();
+                            
+                            document.getElementById("userName").innerHTML = "";
+                            document.getElementById("logout").classList.add("d-none");
+                            document.getElementById("g-button").classList.remove("d-none");
+                        }
                     }
                     
                     google.accounts.id.revoke(keaProfile.ID, callback);
                     
-                    document.getElementById("userName").innerHTML = "";
-                    document.getElementById("logout").classList.add("d-none");
-                    document.getElementById("g-button").classList.remove("d-none");
                 }
             });
            
