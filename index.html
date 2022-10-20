@@ -8,8 +8,9 @@
             keaProfile.email = null;
             keaProfile.name = null;
             //https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out
-            document.getElementById("logout").onclick = function()
-            {
+            document.addEventListener("DOMContentLoaded", function(event) { 
+                document.getElementById("logout").onclick = function()
+                {
                 keaProfile.email = null;
                 keaProfile.name = null;
                 //well let's check they are signed out TODO
@@ -17,7 +18,9 @@
                 document.getElementById("userName").innerHTML = "";
                 document.getElementById("logout").classList.add("d-none");
                 document.getElementById("g_id_onload").classList.remove("d-none");
-            }
+                }
+            });
+           
             
 
             function decodeJwtResponse(data)
@@ -46,11 +49,7 @@
         </script>
         <script src="https://accounts.google.com/gsi/client" async defer></script>
         <style>
-            .user
-            {
-                border: 1px solid #000000;
-                padding: 5px;
-            }
+            
         </style>
     </head>
 <body>
