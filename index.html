@@ -19,8 +19,6 @@
 
             function handleLogin(response)
             {
-                // decodeJwtResponse() is a custom function defined by you
-                // to decode the credential response.
                 const responsePayload = decodeJwtResponse(response.credential);
 
                 console.log("ID: " + responsePayload.sub);
@@ -71,6 +69,6 @@
 
     </div>
 
-    <script src="/build/bundle.js?32"></script>
+    <script src="/build/bundle.js?33"></script>
 </body>
 </html>
