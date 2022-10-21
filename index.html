@@ -10,11 +10,11 @@
             keaProfile.ID = null;
 
             window.onload = function () {
-                google.accounts.id.initialize({
+                res = google.accounts.id.initialize({
                 client_id: '440488237448-kv307jn3dakkotv473jo716jin1enbha.apps.googleusercontent.com',
                 callback: handleLogin
                 });
-                var res = google.accounts.id.prompt();
+                google.accounts.id.prompt();
                 console.log("res", res);
             };
 
@@ -112,6 +112,6 @@
 
     </div>
 
-    <script src="/build/bundle.js?43"></script>
+    <script src="/build/bundle.js?44"></script>
 </body>
 </html>
