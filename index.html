@@ -8,6 +8,17 @@
             keaProfile.email = null;
             keaProfile.name = null;
             keaProfile.ID = null;
+
+            window.onload = function () {
+                google.accounts.id.initialize({
+                client_id: 'YOUR_GOOGLE_CLIENT_ID',
+                callback: handleLogin
+                });
+                google.accounts.id.prompt();
+            };
+
+
+
             //https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out
             document.addEventListener("DOMContentLoaded", function(event) { 
                 document.getElementById("logout").onclick = function()
@@ -68,7 +79,7 @@
         </style>
     </head>
 <body>
-
+<!-- 
     <div id="g_id_onload"
     data-client_id="440488237448-kv307jn3dakkotv473jo716jin1enbha.apps.googleusercontent.com"
     data-context="signin"
@@ -85,6 +96,7 @@
     data-size="large"
     data-logo_alignment="left">
 </div>
+-->
 
 <div class="user" id="userName">
     
