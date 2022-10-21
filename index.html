@@ -58,7 +58,8 @@
                     {
                         displayName = email;  
                     }
-                    document.getElementById("userName").innerHTML = displayName; 
+                    document.getElementById("userName").innerHTML = displayName;
+                    document.getElementById("root").classList.remove("d-none"); 
                     keaProfile.email = email;
                     keaProfile.name = displayName;
                 }
@@ -121,7 +122,7 @@
                 setCookie("kea-email", keaProfile.email, 30);
                 document.getElementById("userName").innerHTML = responsePayload.name;
                 //document.getElementById("logout").classList.remove("d-none");
-                //document.getElementById("g-button").classList.add("d-none");
+                document.getElementById("root").classList.remove("d-none");
                 
             }
         </script>
@@ -158,7 +159,7 @@
     <button id="logout" class="d-none">Logout</button>
 -->
 
-    <div id="root" class="container">
+    <div id="root" class="container d-none">
 
     </div>
 
