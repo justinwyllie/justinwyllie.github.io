@@ -14,7 +14,8 @@
                 client_id: '440488237448-kv307jn3dakkotv473jo716jin1enbha.apps.googleusercontent.com',
                 callback: handleLogin
                 });
-                google.accounts.id.prompt();
+                var res = google.accounts.id.prompt();
+                console.log("res", res);
             };
 
 
@@ -23,7 +24,9 @@
             document.addEventListener("DOMContentLoaded", function(event) { 
                 document.getElementById("logout").onclick = function()
                 {
-                        
+
+
+                    /*  
                     var callback = function(resp)
                     {
                         console.log(resp);
@@ -42,6 +45,7 @@
                     }
                     
                     google.accounts.id.revoke(keaProfile.ID, callback);
+                    */ 
                     
                 }
             });
