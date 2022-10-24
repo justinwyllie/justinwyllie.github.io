@@ -124,15 +124,10 @@ const GapFillExercise = (props) =>
 
     const reportResult = (score) =>
     {
-        const enc = new Base64();
-        let headers = new Headers(); //browser api?
-        headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
-        //preflight does not send creds so need to fix server not to require creds for OPTIONS 
-        //did this use an If - request check to only check for creds if not options
-        fetch('https://dev.kazanenglishacademy.com/ajax-handler.php',
+       
+        fetch('https://online.kazanenglishacademy.com/ajax-handler.php',
         {
             method:'POST',
-            headers: headers,
             body: JSON.stringify({score: score, slug: slug, name: userName, email: userEmail})
             
         })
@@ -344,7 +339,7 @@ const GapFillExercise = (props) =>
         error ? <ErrorMessageDisplay message={errorMessage} />
         : <div >
             <h1 className="text-center">{meta ?  meta.title : ''}</h1>
-            <div>Name: <input value={userName} onChange={(e) =>
+            <div className="mt-3 mb-3">Name: <input value={userName} onChange={(e) =>
                         setUserName(e.currentTarget.value)}   />
             </div>
             <div >
