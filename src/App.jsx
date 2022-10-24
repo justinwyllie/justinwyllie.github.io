@@ -100,10 +100,20 @@ const GapFillExercise = (props) =>
     const [error, setError] = useState(false);
     const [checkButtonActive, setCheckButtonActive] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
     const userLang = 'en';
     const loc = window.location;
     const slug = loc.search.substring(1);
-     
+    
+
+    //load in page fires AFTER this script is parsed
+    //so this func. should be available when the page obtains user data from cookie or google login callback
+    window.specialReactHook = function(userData)
+    {
+        setUserName(userData.name);
+        setUserEmail(userData.email);
+    }
 
     const grammarTermsKeyed = props.grammarTermsKeyed;
     
@@ -112,8 +122,33 @@ const GapFillExercise = (props) =>
         return structuredClone(obj);
     }
 
+    const reportResult = (score) =>
+    {
+        const enc = new Base64();
+        let headers = new Headers(); //browser api?
+        headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
+        //preflight does not send creds so need to fix server not to require creds for OPTIONS 
+        //did this use an If - request check to only check for creds if not options
+        fetch('https://dev.kazanenglishacademy.com/ajax-handler.php',
+        {
+            method:'POST',
+            headers: headers,
+            body: JSON.stringify({score: score, slug: slug, name: userName, email: userEmail})
+            
+        })
+            .then(response => response.json())
+            .then(data => 
+                {
+                    console.log("result", data)
+                });
+
+    }
+
     const check = () =>
     {
+        
+        let score = Object.keys(questionAnswerSets).length;
+
         if ((typeof questionAnswerSets != "undefined") && 
         (Object.keys(questionAnswerSets).length >= 1) ) {
              
@@ -126,7 +161,8 @@ const GapFillExercise = (props) =>
                         const answerVariations = answer.split(":");
                         if (!answerVariations.includes(newQuestionAnswerSets[qNumber].userAnswers[idx]))
                         {
-                            newQuestionAnswerSets[qNumber].status = "incorrect";    
+                            newQuestionAnswerSets[qNumber].status = "incorrect";  
+                            score--;  
                         }
                     })
                 }
@@ -136,6 +172,8 @@ const GapFillExercise = (props) =>
                 setQuestionAnswerSets( 
                         newQuestionAnswerSets
                 );
+
+                reportResult(score);
 
 
         }
@@ -306,6 +344,9 @@ const GapFillExercise = (props) =>
         error ? <ErrorMessageDisplay message={errorMessage} />
         : <div >
             <h1 className="text-center">{meta ?  meta.title : ''}</h1>
+            <div>Name: <input value={userName} onChange={(e) =>
+                        setUserName(e.currentTarget.value)}   />
+            </div>
             <div >
                 <div>
                     {/* TODO langs from constants/deployment config - nb also used in language-blocks */}

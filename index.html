@@ -31,9 +31,9 @@
 
 
             window.keaProfile = {};
-            keaProfile.email = null;
-            keaProfile.name = null;
-            keaProfile.ID = null;
+            keaProfile.email = '';
+            keaProfile.name = '';
+            keaProfile.ID = '';
 
             window.onload = function () {
                 var email = getCookie("kea-email");
@@ -42,13 +42,14 @@
                 {
                     var res1 = google.accounts.id.initialize({
                     client_id: '440488237448-kv307jn3dakkotv473jo716jin1enbha.apps.googleusercontent.com',
+                    auto_select: true, //if they logged in before and are in account now will not VISUALLY prompt but will call callback
                     callback: handleLogin
                     });
                     google.accounts.id.prompt();
                     console.log("res",  res1);
                 }
                 else
-                {
+                {/*
                     var displayName;
                     if (name != "")
                     {
@@ -58,10 +59,14 @@
                     {
                         displayName = email;  
                     }
-                    document.getElementById("userName").innerHTML = displayName;
-                    document.getElementById("root").classList.remove("d-none"); 
+                    //document.getElementById("userName").innerHTML = displayName;
+                    //document.getElementById("root").classList.remove("d-none"); 
+                    
+                    */
                     keaProfile.email = email;
                     keaProfile.name = displayName;
+                    specialReactHook(keaProfile); 
+                  
                 }
             };
 
@@ -124,7 +129,8 @@
                 setCookie("kea-email", keaProfile.email, 30);
                 document.getElementById("userName").innerHTML = responsePayload.name;
                 //document.getElementById("logout").classList.remove("d-none");
-                document.getElementById("root").classList.remove("d-none");
+                //document.getElementById("root").classList.remove("d-none");
+                specialReactHook(keaProfile); //my built script has already run. 
                 
             }
         </script>
@@ -165,6 +171,6 @@
 
     </div>
 
-    <script src="/build/bundle.js?49"></script>
+    <script src="/build/bundle.js?49" defer></script>
 </body>
 </html>
