@@ -142,7 +142,8 @@ const GapFillExercise = (props) =>
     const check = () =>
     {
         
-        let score = Object.keys(questionAnswerSets).length;
+        let scorePoss = 0;
+        let scoreMistakes = 0;
 
         if ((typeof questionAnswerSets != "undefined") && 
         (Object.keys(questionAnswerSets).length >= 1) ) {
@@ -153,11 +154,12 @@ const GapFillExercise = (props) =>
                 {
                     newQuestionAnswerSets[qNumber].status = "correct";
                     newQuestionAnswerSets[qNumber].correctAnswers.forEach( (answer, idx) => {
+                        scorePoss++;
                         const answerVariations = answer.split(":");
                         if (!answerVariations.includes(newQuestionAnswerSets[qNumber].userAnswers[idx]))
                         {
                             newQuestionAnswerSets[qNumber].status = "incorrect";  
-                            score--;  
+                            scoreMistakes--;  
                         }
                     })
                 }
@@ -168,7 +170,7 @@ const GapFillExercise = (props) =>
                         newQuestionAnswerSets
                 );
 
-                reportResult(score);
+                reportResult(scorePoss - scoreMistakes);
 
 
         }
