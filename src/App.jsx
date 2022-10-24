@@ -111,6 +111,7 @@ const GapFillExercise = (props) =>
     //so this func. should be available when the page obtains user data from cookie or google login callback
     window.specialReactHook = function(userData)
     {
+        console.log("srh in react", userData);
         setUserName(userData.name);
         setUserEmail(userData.email);
     }
@@ -159,7 +160,7 @@ const GapFillExercise = (props) =>
                         if (!answerVariations.includes(newQuestionAnswerSets[qNumber].userAnswers[idx]))
                         {
                             newQuestionAnswerSets[qNumber].status = "incorrect";  
-                            scoreMistakes--;  
+                            scoreMistakes++;  
                         }
                     })
                 }
