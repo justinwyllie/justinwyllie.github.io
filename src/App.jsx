@@ -105,13 +105,15 @@ const GapFillExercise = (props) =>
     const userLang = 'en';
     const loc = window.location;
     const slug = loc.search.substring(1);
+    const [fieldState, setFieldState] = useState("is-valid");
     
 
     //load in page fires AFTER this script is parsed
     //so this func. should be available when the page obtains user data from cookie or google login callback
-    console.log("defining srh");
+    
     if (window.specialReactHook == undefined)
     {
+        console.log("defining srh");
         window.specialReactHook = function(userData)
         {
             console.log("srh in react", userData);
@@ -146,6 +148,11 @@ const GapFillExercise = (props) =>
 
     const check = () =>
     {
+        if (userName == "")
+        {
+            setFieldState("is-invalid");
+            return;
+        }
         
         let scorePoss = 0;
         let scoreMistakes = 0;
@@ -174,8 +181,8 @@ const GapFillExercise = (props) =>
                 setQuestionAnswerSets( 
                         newQuestionAnswerSets
                 );
-
-                reportResult(scorePoss - scoreMistakes);
+                let scorePositive = scorePoss - scoreMistakes;
+                reportResult(scorePositive + "-" + scorePoss);
 
 
         }
@@ -224,6 +231,15 @@ const GapFillExercise = (props) =>
                 );
                 setCheckButtonActive(true);
         }
+    }
+
+    const setUserNameWrapper = (name) =>
+    {
+        if (name != '')
+        {
+            setFieldState("is-valid");
+        }
+        setUserName(name);
     }
 
     const handleChange = (e, questionNumber, fieldNumber) =>
@@ -346,9 +362,16 @@ const GapFillExercise = (props) =>
         error ? <ErrorMessageDisplay message={errorMessage} />
         : <div >
             <h1 className="text-center">{meta ?  meta.title : ''}</h1>
-            <div className="mt-3 mb-3">Name: <input value={userName} onChange={(e) =>
-                        setUserName(e.currentTarget.value)}   />
+            <label for="userName" class="form-label">Name</label>
+            <div className="mt-3 mb-3 input-group has-validation">
+                <input id="userName" className={fieldState} value={userName} onChange={(e) =>
+                        setUserNameWrapper(e.currentTarget.value)}   />
+                <div class="invalid-feedback">
+                    Please enter your name
+                </div>
             </div>
+            
+
             <div >
                 <div>
                     {/* TODO langs from constants/deployment config - nb also used in language-blocks */}
