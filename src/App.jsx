@@ -362,9 +362,10 @@ const GapFillExercise = (props) =>
         error ? <ErrorMessageDisplay message={errorMessage} />
         : <div >
             <h1 className="text-center">{meta ?  meta.title : ''}</h1>
-            <label for="userName" class="form-label">Name</label>
+            
             <div className="mt-3 mb-3 input-group has-validation">
-                <input id="userName" className={fieldState} value={userName} onChange={(e) =>
+            <label for="userName" class="form-label">Name</label> 
+            <input id="userName" className={fieldState} value={userName} onChange={(e) =>
                         setUserNameWrapper(e.currentTarget.value)}   />
                 <div class="invalid-feedback">
                     Please enter your name
