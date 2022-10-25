@@ -364,10 +364,10 @@ const GapFillExercise = (props) =>
             <h1 className="text-center">{meta ?  meta.title : ''}</h1>
             
             <div className="mt-3 mb-3 input-group has-validation">
-            <label for="userName" class="form-label">Name  </label> 
+            <label htmlFor="userName" className="form-label">Name  </label> 
             <input id="userName" className={fieldState} value={userName} onChange={(e) =>
                         setUserNameWrapper(e.currentTarget.value)}   />
-                <div class="invalid-feedback">
+                <div className="invalid-feedback">
                     Please enter your name
                 </div>
             </div>
