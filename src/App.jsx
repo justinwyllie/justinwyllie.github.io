@@ -109,6 +109,7 @@ const GapFillExercise = (props) =>
 
     //load in page fires AFTER this script is parsed
     //so this func. should be available when the page obtains user data from cookie or google login callback
+    console.log("defining srh");
     if (window.specialReactHook == undefined)
     {
         window.specialReactHook = function(userData)
