@@ -104,7 +104,9 @@ const GapFillExercise = (props) =>
     const [userEmail, setUserEmail] = useState('');
     const userLang = 'en';
     const loc = window.location;
-    const slug = loc.search.substring(1);
+    const urlParams = new URLSearchParams(loc.search);
+    const slug = urlParams.get("q");
+    const direct = urlParams.get("d");
     const [fieldState, setFieldState] = useState("is-valid");
     
 
@@ -135,7 +137,7 @@ const GapFillExercise = (props) =>
         fetch('https://online.kazanenglishacademy.com/ajax-handler.php',
         {
             method:'POST',
-            body: JSON.stringify({score: score, slug: slug, name: userName, email: userEmail})
+            body: JSON.stringify({score: score, slug: slug, name: userName, email: userEmail, direct: direct})
             
         })
             .then(response => response.json())
