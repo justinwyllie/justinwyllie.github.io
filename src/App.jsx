@@ -377,6 +377,7 @@ const GapFillExercise = (props) =>
                 <div>
                     {/* TODO langs from constants/deployment config - nb also used in language-blocks */}
                     {<Instructions models={meta ? meta.models  : undefined}
+                        explanation={meta ? meta.explanation  : undefined}
                         instructions={meta ? meta.instructions  : undefined} langs={['ru', 'en']} 
                         userLang={userLang}  />}
                 </div>
@@ -508,8 +509,9 @@ const Instructions = (props) =>
         langs is coded above but will be total available site langs? 
         the supported langs for site must match those for each ex. curr. en and ru. 
     */
-    const {instructions, langs, userLang, models} = props;
+    const {instructions, langs, userLang, models, explanation} = props;
     const [showModels, setShowModels] = useState(true);
+    const [showExplanation, setShowExplanation] = useState(false);
 
     let availableLangsWithFlag = [];
     langs.forEach(lang => {
@@ -574,6 +576,32 @@ const Instructions = (props) =>
     {
         modelsText.__html = models;
     }
+
+    let explanationText = {__html: ''};
+  
+    let explanationBlock = '';
+    if (explanation != undefined && explanation != "")
+    {
+        explanationText.__html = explanation;
+        explanationBlock = 
+        <div className="mt-3">
+            <h4 className=" d-inline">
+                    {CapitalizeFirstLetter(LABELS[userLang]['explanation']['nominative'])}
+                
+            </h4>
+
+            {showExplanation 
+                ? <Dash  size={36} className="pointer symbols mt-n2" onClick={() => setShowExplanation(false)}/>
+                : <Plus  size={36} className="pointer symbols mt-n2" onClick={() => setShowExplanation(true)} />
+            }
+            
+            {showExplanation && 
+                <p dangerouslySetInnerHTML={explanationText}></p>
+            }
+        </div>
+    }
+
+    
     
 
     return (
@@ -602,12 +630,14 @@ const Instructions = (props) =>
                 {showModels && 
                     <p dangerouslySetInnerHTML={modelsText}></p>
                 }
+
+                {explanationBlock}
+
             </div>
         </>
     )
 
 }
-
 
 
 

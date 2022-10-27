@@ -19,7 +19,8 @@ const LABELS = {
             check: {infinitive: "проверить"},
             showCorrectAnswers: {infinitive: "Показывать правильные ответы"},
             reset: {infinitive: "восстановить"},
-            models: {nominative: "примеры"}
+            models: {nominative: "примеры"},
+            explanation: {nominative: "объяснение"}
 
             
         },
@@ -41,7 +42,8 @@ const LABELS = {
             check: {infinitive: "check"},
             showCorrectAnswers: {infinitive: "Show correct answers"},
             reset: {infinitive: "reset"},
-            models: {nominative: "models"}
+            models: {nominative: "models"},
+            explanation: {nominative: "explanation"},
         }
 }
 
