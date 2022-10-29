@@ -178,7 +178,7 @@ const GapFillExercise = (props) =>
                             scoreMistakes++;  
                         }
                     });
-                    if (newQuestionAnswerSets[qNumber].status = "incorrect")
+                    if (newQuestionAnswerSets[qNumber].status == "incorrect")
                     {
                         errors.push(qNumber);
                     }
