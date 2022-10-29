@@ -176,9 +176,12 @@ const GapFillExercise = (props) =>
                         {
                             newQuestionAnswerSets[qNumber].status = "incorrect";  
                             scoreMistakes++;  
-                            errors.push(qNumber);
                         }
-                    })
+                    });
+                    if (newQuestionAnswerSets[qNumber].status = "incorrect")
+                    {
+                        errors.push(qNumber);
+                    }
                 }
                 console.log("newQuestionAnswerSets2", newQuestionAnswerSets);
                 //for info - rather than wiping it you can modify parts of it:
