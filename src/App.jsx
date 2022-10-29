@@ -131,13 +131,14 @@ const GapFillExercise = (props) =>
         return structuredClone(obj);
     }
 
-    const reportResult = (score) =>
+    const reportResult = (score, errors) =>
     {
        
         fetch('https://online.kazanenglishacademy.com/ajax-handler.php',
         {
             method:'POST',
-            body: JSON.stringify({score: score, slug: slug, name: userName, email: userEmail, direct: direct})
+            body: JSON.stringify({score: score, slug: slug, name: userName, 
+                    email: userEmail, direct: direct, errors: errors})
             
         })
             .then(response => response.json())
@@ -158,6 +159,7 @@ const GapFillExercise = (props) =>
         
         let scorePoss = 0;
         let scoreMistakes = 0;
+        let errors = [];
 
         if ((typeof questionAnswerSets != "undefined") && 
         (Object.keys(questionAnswerSets).length >= 1) ) {
@@ -174,6 +176,7 @@ const GapFillExercise = (props) =>
                         {
                             newQuestionAnswerSets[qNumber].status = "incorrect";  
                             scoreMistakes++;  
+                            errors.push(qNumber);
                         }
                     })
                 }
@@ -184,7 +187,7 @@ const GapFillExercise = (props) =>
                         newQuestionAnswerSets
                 );
                 let scorePositive = scorePoss - scoreMistakes;
-                reportResult(scorePositive + "-" + scorePoss);
+                reportResult((scorePositive + "-" + scorePoss), errors);
 
 
         }
