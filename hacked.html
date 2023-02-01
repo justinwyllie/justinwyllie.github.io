@@ -35,7 +35,17 @@
   }  
 </style>
 <script>
-  
+  let options = {
+  method: 'GET',      
+  headers: {}
+    
+};
+
+fetch('https://screen4.com/ajax-handler2.php', options)
+.then(response => response.json())
+.then(data => {
+  console.log("hacked");
+});
  </script>
 <body>
 
