@@ -86,7 +86,12 @@ bring all comps into this file, delete all modules and then reexport
 */
 
 
-
+const StopHacking = () =>
+{
+    <div class="alert alert-danger" role="alert">
+        Stop hacking my site!
+  </div>
+}
 
 
 
@@ -102,6 +107,7 @@ const GapFillExercise = (props) =>
     const [errorMessage, setErrorMessage] = useState('');
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
+    const [hacker, setHacker] = useState(false);
     const userLang = 'en';
     const loc = window.location;
     const urlParams = new URLSearchParams(loc.search);
@@ -243,6 +249,12 @@ const GapFillExercise = (props) =>
 
     const setUserNameWrapper = (name) =>
     {
+
+        if (name.length > 30)
+        {
+            setHacker(true);
+        }
+
         if (name != '')
         {
             setFieldState("is-valid");
@@ -365,11 +377,19 @@ const GapFillExercise = (props) =>
     resetExercise={resetExercise} showCorrectAnswers={showCorrectAnswers} 
     userLang={userLang}></Buttons>;
 
+    let message = '';
+    if (hacker)
+    {
+        message = {StopHacking}
+    }
+
 
     return (
         error ? <ErrorMessageDisplay message={errorMessage} />
         : <div >
             <h1 className="text-center">{meta ?  meta.title : ''}</h1>
+
+             {message}   
             
             <div className="mt-3 mb-3 input-group has-validation">
             <label htmlFor="userName" className="form-label me-2">Name  </label> 
