@@ -253,7 +253,7 @@ const GapFillExercise = (props) =>
         if (name.length > 30)
         {
             setHacker(true);
-            name = name.substr(0, 29);
+            name = name.substr(0, 30);
         }
         else
         {
