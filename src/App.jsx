@@ -380,7 +380,7 @@ const GapFillExercise = (props) =>
     let message = '';
     if (hacker)
     {
-        message = {StopHacking}
+        message = <StopHacking />
     }
 
 
