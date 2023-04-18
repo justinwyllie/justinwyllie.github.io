@@ -88,9 +88,9 @@ bring all comps into this file, delete all modules and then reexport
 
 const StopHacking = () =>
 {
-    <div class="alert alert-danger" role="alert">
+    return (<div class="alert alert-danger" role="alert">
         Stop hacking my site!
-  </div>
+  </div>)
 }
 
 
