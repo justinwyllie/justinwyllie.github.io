@@ -340,7 +340,7 @@ const GapFillExercise = (props) =>
         headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
         //preflight does not send creds so need to fix server not to require creds for OPTIONS 
         //did this use an If - request check to only check for creds if not options
-        fetch('https://dev.kazanenglishacademy.com/wp-json/wp/v2/activity_gap_fills?slug=' + slug + '&data=json',
+        fetch('https://dev.kazanenglishacademy.com/wp-json/wp/v2/kea_activity?slug=' + slug + '&data=json',
         {
             method:'GET',
             headers: headers
@@ -349,7 +349,7 @@ const GapFillExercise = (props) =>
             .then(response => response.json())
             .then(data => 
                 {
-                    processMeta(data[0].meta._activity_gap_fill_meta);
+                    processMeta(data[0].meta._kea_activity_meta);
                     //setMeta(meta);
                     setExercise(data[0]);
                 }    
