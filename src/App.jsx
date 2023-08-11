@@ -255,14 +255,14 @@ if (window.specialReactHook == undefined)
     }
 
     //CHNAGE FOR GITHUB - we use our own reportResult
-    const reportResult = (score, errors) =>
+    const reportResult = (ex) =>
     {
        
         fetch('https://online.kazanenglishacademy.com/ajax-handler.php',
         {
             method:'POST',
-            body: JSON.stringify({score: score, slug: props.slug, name: userName, 
-                    email: userEmail, direct: props.direct, errors: errors})
+            body: JSON.stringify({ slug: props.slug, name: userName, 
+                    email: userEmail, direct: props.direct, ex: ex})
             
         })
             .then(response => response.json())
@@ -349,7 +349,7 @@ if (window.specialReactHook == undefined)
             console.log("modex", mode);
             if (mode == "withoutkey")
             {
-                reportResult(score, errors); 
+                reportResult(questionsAndStudentAnswers); 
             }
             else
             {
