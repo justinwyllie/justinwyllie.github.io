@@ -13,10 +13,14 @@ import { Base64 } from 'base64-string';
 const DOMAIN = "dev.kazanenglishacademy.com";
 
 /*
-for github - use our reportResult
+take Data and GapFillEx
+for github - use our reportResult in GapFillEx
+
+most changes in Data 
 in Data - change the link to get the data from "dev.kazanenglishacademy.com"; and params from query string
 remove this line from Data headers.set('X-Requested-With', 'XMLHttpRequest');
 direct set in Data 
+setslug in data
 */
 
 const Loading = () =>
@@ -65,6 +69,8 @@ const Data = () => {
         const urlParams = new URLSearchParams(query);
         const postId = urlParams.get('postId');
         const key = urlParams.get('key');
+        const q = urlParams.get('q');
+        setSlug(q);
         let directParam = urlParams.get('direct');
         let test = urlParams.get('test');
         console.log("test", test);
@@ -341,11 +347,10 @@ if (window.specialReactHook == undefined)
                 errors: errors,
                 questionsAndStudentAnswers: questionsAndStudentAnswers
             }
+            console.log("mode", mode);
             if (mode == "withoutKey")
             {
-                reportResult(results); 
-                
-
+                reportResult(score, errors); 
             }
             else
             {
