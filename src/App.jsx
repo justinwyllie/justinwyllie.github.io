@@ -4,7 +4,7 @@ import * as jose from "jose";
 window.decodeJwt = jose.decodeJwt;
 
 import {  LABELS, MODE, DIRECT } from "./Constants";
-import ErrorMessageDisplay from "./Components/Components";
+import { ErrorMessageDisplay, ConfirmMessageDisplay } from "./Components/Components";
 //import { CapitalizeFirstLetter } from "./helpers";
 import reactStringReplace from './Utilities/react-string-replace-with-index';
 import {  Check, X, Plus, Dash} from 'react-bootstrap-icons';
