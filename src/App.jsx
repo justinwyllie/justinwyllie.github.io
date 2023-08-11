@@ -15,6 +15,7 @@ const DOMAIN = "dev.kazanenglishacademy.com";
 /*
 for github - use our reportResult
 in Data - change the link to get the data from "dev.kazanenglishacademy.com"; and params from query string
+remove this line from Data headers.set('X-Requested-With', 'XMLHttpRequest');
 */
 
 const Loading = () =>
@@ -56,7 +57,7 @@ const Data = () => {
             //did this use an If - request check to only check for creds if not options
         }
         headers.set('Content-Type', 'application/json; charset=UTF-8');
-        headers.set('X-Requested-With', 'XMLHttpRequest');
+        //headers.set('X-Requested-With', 'XMLHttpRequest');
 
         const query = window.location.search;
         const urlParams = new URLSearchParams(query);
