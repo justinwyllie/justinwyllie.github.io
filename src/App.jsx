@@ -84,6 +84,7 @@ const Data = () => {
         .then(data =>  
                 {
                     //TODO here work out exercise type. 
+                    console.log("data", data);
                     if (data.success)
                     {  
                         setExercise(data);
