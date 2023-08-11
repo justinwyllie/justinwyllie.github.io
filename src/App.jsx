@@ -346,7 +346,7 @@ if (window.specialReactHook == undefined)
                 errors: errors,
                 questionsAndStudentAnswers: questionsAndStudentAnswers
             }
-            console.log("mode", mode);
+            console.log("modex", mode);
             if (mode == "withoutkey")
             {
                 reportResult(score, errors); 
