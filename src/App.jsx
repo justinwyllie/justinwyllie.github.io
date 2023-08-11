@@ -16,6 +16,7 @@ const DOMAIN = "dev.kazanenglishacademy.com";
 for github - use our reportResult
 in Data - change the link to get the data from "dev.kazanenglishacademy.com"; and params from query string
 remove this line from Data headers.set('X-Requested-With', 'XMLHttpRequest');
+direct set in Data 
 */
 
 const Loading = () =>
@@ -43,6 +44,7 @@ const Data = () => {
     const [exercise, setExercise] = useState(undefined);
     const [slug, setSlug]  = useState('');
     const [exKey, setExKey]  = useState('');
+    const [direct, setDirect]  = useState('bc'); //GITHUB
 
     let bits;
     useEffect(() => {
@@ -63,6 +65,15 @@ const Data = () => {
         const urlParams = new URLSearchParams(query);
         const postId = urlParams.get('postId');
         const key = urlParams.get('key');
+        let directParam = urlParams.get('direct');
+        let test = urlParams.get('test');
+        console.log("test", test);
+        //GITHUB
+        if (directParam)
+        {
+            setDirect(directParam);
+        }
+        
 
         //https://justinwyllie.github.io/?q=past-simple-v-present-perfect-v-present-perfect-continuous&postId=2796&key=200408289 
         //CHANGE FOR GITHUB wp-json/kea_activities/v1/json_post/2750/1784148523   
@@ -104,7 +115,7 @@ const Data = () => {
     }, []);
 
     return(
-            error ? <ErrorMessageDisplay message={errorMessage} /> :  exercise ? <GapFillExercise  exKey={exKey} slug={slug} exercise={exercise} /> : <Loading />
+            error ? <ErrorMessageDisplay message={errorMessage} /> :  exercise ? <GapFillExercise direct={direct} exKey={exKey} slug={slug} exercise={exercise} /> : <Loading />
         );
 
 
@@ -166,7 +177,7 @@ if (window.specialReactHook == undefined)
     }
 }
 
-window.signin();
+//window.signin();
 
 
 
@@ -246,7 +257,7 @@ window.signin();
         {
             method:'POST',
             body: JSON.stringify({score: score, slug: slug, name: userName, 
-                    email: userEmail, direct: direct, errors: errors})
+                    email: userEmail, direct: props.direct, errors: errors})
             
         })
             .then(response => response.json())

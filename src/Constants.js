@@ -1,5 +1,5 @@
 const DOMAIN = "dev.kazanenglishacademy.com";
-const DIRECT = "kea";
+const DIRECT = "bc";
 const MODE = "dev";
 const LABELS = {
         ru: 
