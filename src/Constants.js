@@ -1,4 +1,5 @@
 const DOMAIN = "dev.kazanenglishacademy.com";
+const DIRECT = "kea";
 const MODE = "dev";
 const LABELS = {
         ru: 
@@ -67,5 +68,6 @@ export
 {
     DOMAIN,
     MODE,
-    LABELS
+    LABELS,
+    DIRECT
 };

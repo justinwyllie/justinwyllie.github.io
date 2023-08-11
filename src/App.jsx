@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import * as jose from "jose";
 window.decodeJwt = jose.decodeJwt;
 
-import {  LABELS, MODE } from "./Constants";
+import {  LABELS, MODE, DIRECT } from "./Constants";
 import ErrorMessageDisplay from "./Components/Components";
 //import { CapitalizeFirstLetter } from "./helpers";
 import reactStringReplace from './Utilities/react-string-replace-with-index';
