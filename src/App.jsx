@@ -17,6 +17,11 @@ for github - use our reportResult
 in Data - change the link to get the data from "dev.kazanenglishacademy.com"; and params from query string
 */
 
+const Loading = () =>
+{
+    return(<div>loading...</div>)
+}
+
 const CapitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
