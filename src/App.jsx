@@ -48,9 +48,9 @@ const Data = () => {
     const [exercise, setExercise] = useState(undefined);
     const [slug, setSlug]  = useState('');
     const [exKey, setExKey]  = useState('');
-    const [direct, setDirect]  = useState('bc'); //GITHUB
+    const [direct, setDirect]  = useState(DIRECT); //GITHUB
 
-    let bits;
+  
     useEffect(() => {
         let headers;
         if (MODE == 'dev')
@@ -72,10 +72,9 @@ const Data = () => {
         const q = urlParams.get('q');
         setSlug(q);
         let directParam = urlParams.get('direct');
-        let test = urlParams.get('test');
-        console.log("test", test);
+     
         //GITHUB
-        if (directParam)
+        if (directParam != null)
         {
             setDirect(directParam);
         }
@@ -262,7 +261,7 @@ if (window.specialReactHook == undefined)
         fetch('https://online.kazanenglishacademy.com/ajax-handler.php',
         {
             method:'POST',
-            body: JSON.stringify({score: score, slug: slug, name: userName, 
+            body: JSON.stringify({score: score, slug: props.slug, name: userName, 
                     email: userEmail, direct: props.direct, errors: errors})
             
         })
@@ -348,7 +347,7 @@ if (window.specialReactHook == undefined)
                 questionsAndStudentAnswers: questionsAndStudentAnswers
             }
             console.log("mode", mode);
-            if (mode == "withoutKey")
+            if (mode == "withoutkey")
             {
                 reportResult(score, errors); 
             }
