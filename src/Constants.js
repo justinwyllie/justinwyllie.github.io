@@ -20,7 +20,15 @@ const LABELS = {
             showCorrectAnswers: {infinitive: "Показывать правильные ответы"},
             reset: {infinitive: "восстановить"},
             models: {nominative: "примеры"},
-            explanation: {nominative: "объяснение"}
+            explanation: {nominative: "объяснение"},
+            checkandsubmit: {imperative: "проверьте и отправьте"},
+            submitformarking: {infinitive: "отправить"},
+            welldone: {infinitive: "well done"},
+            congratulations: {infinitive: "congratulations"},
+            keeptrying: {infinitive: "keep trying"},
+            youscored: {infinitive: "you scored"},
+            percentsign: {nominative: "%"},
+            results_sent: {nominative: "Thank you. Your results have been sent."}
 
             
         },
@@ -44,6 +52,14 @@ const LABELS = {
             reset: {infinitive: "reset"},
             models: {nominative: "models"},
             explanation: {nominative: "explanation"},
+            checkandsubmit: {imperative: "проверьте и отправьте"},
+            submitformarking: {infinitive: "отправить"},
+            welldone: {infinitive: "well done"},
+            congratulations: {infinitive: "congratulations"},
+            keeptrying: {infinitive: "keep trying"},
+            youscored: {infinitive: "you scored"},
+            percentsign: {nominative: "%"},
+            results_sent: {nominative: "Thank you. Your results have been sent."}
         }
 }
 

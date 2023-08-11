@@ -12,6 +12,11 @@ import { Base64 } from 'base64-string';
 
 const DOMAIN = "dev.kazanenglishacademy.com";
 
+/*
+for github - use our reportResult
+in Data - change the link to get the data from "dev.kazanenglishacademy.com"; and params from query string
+*/
+
 const CapitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -19,40 +24,69 @@ const CapitalizeFirstLetter = (string) => {
 const App = () => {
 
     return <>
-        <Data></Data>
+        z
     </>
 
 }
 
 const Data = () => {
 
-    const [grammarTerms, setGrammarTerms] = useState(null);
+   
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [exercise, setExercise] = useState(undefined);
+    const [slug, setSlug]  = useState('');
+    const [exKey, setExKey]  = useState('');
 
+    let bits;
     useEffect(() => {
-        //TODO - we have a problem when we have > 100 
-        const enc = new Base64();
-        let headers = new Headers(); //browser api?
-        headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
-        //preflight does not send creds so need to fix server not to require creds for OPTIONS 
-        //did this use an If - request check to only check for creds if not options
-        fetch('https://' + DOMAIN + '/wp-json/wp/v2/grammar_terms?per_page=100',
+        let headers;
+        if (MODE == 'dev')
+        {
+            const enc = new Base64();
+            headers = new Headers(); //browser api?
+            headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
+            
+            //preflight does not send creds so need to fix server not to require creds for OPTIONS 
+            //did this use an If - request check to only check for creds if not options
+        }
+        headers.set('Content-Type', 'application/json; charset=UTF-8');
+        headers.set('X-Requested-With', 'XMLHttpRequest');
+
+        const query = window.location.search;
+        const urlParams = new URLSearchParams(query);
+        const postId = urlParams.get('postId');
+        const key = urlParams.get('key');
+
+        //https://justinwyllie.github.io/?q=past-simple-v-present-perfect-v-present-perfect-continuous&postId=2796&key=200408289 
+        //CHANGE FOR GITHUB wp-json/kea_activities/v1/json_post/2750/1784148523   
+        fetch('https://' + DOMAIN + '/wp-json/kea_activities/v1/json_post/' + postId + "/" +  key,
         {
             method:'GET',
             headers: headers
             
         })
-        .then(response => response.json())
+        .then(response => {
+            if (response.ok)
+            {
+                return response.json();
+            }
+            
+            throw new Error();
+            
+        })
         .then(data =>  
                 {
-                    const grammarTermsKeyed = {};
-                    data.forEach((term) => {
-                        grammarTermsKeyed[term.id] = {description: term.description, 
-                            count: term.count, 
-                            slug: term.slug};
-                    });
-                    setGrammarTerms(grammarTermsKeyed);
+                    //TODO here work out exercise type. 
+                    if (data.success)
+                    {  
+                        setExercise(data);
+                    }
+                    else
+                    {
+                        throw new Error(data.message);
+                    }
+                    
                 }    
         ).catch(function (error) {
             setError(true);
@@ -63,14 +97,9 @@ const Data = () => {
     }, []);
 
     return(
-        
-        error
-            ? <ErrorMessageDisplay message={errorMessage} />
-            : <GapFillExercise grammarTermsKeyed={grammarTerms} />
+            error ? <ErrorMessageDisplay message={errorMessage} /> :  exercise ? <GapFillExercise  exKey={exKey} slug={slug} exercise={exercise} /> : <Loading />
         );
-    
- 
-     
+
 
 }
 
@@ -94,49 +123,115 @@ const StopHacking = () =>
 }
 
 
-
 const GapFillExercise = (props) =>
 {
     
-    const [exercise, setExercise] = useState(undefined);
-    const [meta, setMeta] = useState(undefined);
+    //const [exercise, setExercise] = useState(undefined);
     const [questionAnswerSets, setQuestionAnswerSets] = useState(undefined);
     const [grammarTags, setGrammarTags] = useState([]);
     const [error, setError] = useState(false);
     const [checkButtonActive, setCheckButtonActive] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+    const [confirmMessage, setConfirmMessage] = useState(undefined);
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [hacker, setHacker] = useState(false);
+   
     const userLang = 'en';
     const loc = window.location;
-    const urlParams = new URLSearchParams(loc.search);
-    const slug = urlParams.get("q");
-    const direct = urlParams.get("d");
     const [fieldState, setFieldState] = useState("is-valid");
+  
+    const direct = DIRECT;
+    //const [exercise, setExercise] = useState(props.exercise ? props.exercise : undefined);
     
 
-    //load in page fires AFTER this script is parsed
-    //so this func. should be available when the page obtains user data from cookie or google login callback
     
-    if (window.specialReactHook == undefined)
+/** SECTION FOR JS LOGIN - FIX UP */
+
+    
+if (window.specialReactHook == undefined)
+{
+    
+    window.specialReactHook = function(userData)
     {
-        console.log("defining srh");
-        window.specialReactHook = function(userData)
-        {
-            console.log("srh in react", userData);
-            setUserName(userData.name);
-            setUserEmail(userData.email);
-        }
+        setUserName(userData.name);
+        setUserEmail(userData.email);
     }
+}
 
-    const grammarTermsKeyed = props.grammarTermsKeyed;
+window.signin();
+
+
+
+    const produceQASets = (exercise) =>
+    {
+        
+        let qLength;
+        let qaPairs = {};
+      
+        exercise.questions.forEach((question, idx) => {
+            
+            let answer = question.answer.replace(/\|$/, '');
+        
+            const correctAnswers = answer.split('|');
+            
+            qLength = correctAnswers.length;
+           
+            var userAnswers = new Array();
+            for (let i = 0; i < qLength; i++)
+            {
+                userAnswers.push('');
+            }
+            
+           
+            qaPairs[question.questionNumber] = {
+                questionNumber: question.questionNumber,
+                question: question.question,
+                userAnswers:  userAnswers,
+                correctAnswers: correctAnswers,
+                status: "unmarked",
+                length: qLength
+            }
+            
+        })
+ 
+        setQuestionAnswerSets(qaPairs);
+       
+    }
     
     const getUnLinkedCopy = (obj) =>
     {
         return structuredClone(obj);
     }
 
+    const feedback = (results) =>
+    {
+        
+        console.log("results", results, userLang);
+        
+      
+
+        let message = "";
+        if (results.scorePercent >= 90)
+        {
+            message = CapitalizeFirstLetter(LABELS[userLang]['congratulations']['infinitive']);
+        }
+        else if (results.scorePercent > 65)
+        {
+            message = CapitalizeFirstLetter(LABELS[userLang]['welldone']['infinitive']);
+        }
+        else
+        {
+            message = CapitalizeFirstLetter(LABELS[userLang]['keeptrying']['infinitive']);
+        }
+
+        message = CapitalizeFirstLetter(LABELS[userLang]['youscored']['infinitive']) + ": " + results.scorePercent +
+            CapitalizeFirstLetter(LABELS[userLang]['percentsign']['nominative']) + ". " + message + ".";
+
+        setConfirmMessage(message);
+    }
+
+    //CHNAGE FOR GITHUB - we use our own reportResult
     const reportResult = (score, errors) =>
     {
        
@@ -150,7 +245,7 @@ const GapFillExercise = (props) =>
             .then(response => response.json())
             .then(data => 
                 {
-                    console.log("result", data)
+                    setConfirmMessage(CapitalizeFirstLetter(LABELS[userLang]['results_sent']['nominative']))
                 });
 
     }
@@ -162,6 +257,13 @@ const GapFillExercise = (props) =>
             setFieldState("is-invalid");
             return;
         }
+        /*
+        * if mode is without key what is different?
+        * we cannot calculate a score or produce a list of errors
+        * nothing should be marked as incorrect or correct
+        *
+        */
+        const mode = props.exercise.mode;
         
         let scorePoss = 0;
         let scoreMistakes = 0;
@@ -170,8 +272,11 @@ const GapFillExercise = (props) =>
         if ((typeof questionAnswerSets != "undefined") && 
         (Object.keys(questionAnswerSets).length >= 1) ) {
              
-                let newQuestionAnswerSets = getUnLinkedCopy(questionAnswerSets);
-               
+                
+            let newQuestionAnswerSets;
+            if (mode == "withkey")
+            {
+                newQuestionAnswerSets = getUnLinkedCopy(questionAnswerSets);
                 for (const qNumber in newQuestionAnswerSets)
                 {
                     newQuestionAnswerSets[qNumber].status = "correct";
@@ -189,17 +294,54 @@ const GapFillExercise = (props) =>
                         errors.push(qNumber);
                     }
                 }
-                console.log("newQuestionAnswerSets2", newQuestionAnswerSets);
                 //for info - rather than wiping it you can modify parts of it:
                 //https://bobbyhadz.com/blog/react-update-nested-state-object-property
                 setQuestionAnswerSets( 
-                        newQuestionAnswerSets
+                    newQuestionAnswerSets
                 );
-                let scorePositive = scorePoss - scoreMistakes;
-                reportResult((scorePositive + "-" + scorePoss), errors);
+            }   
+            
 
+            let questionsAndStudentAnswers;
+            let score;
+            if (newQuestionAnswerSets == undefined)
+            {
+                questionsAndStudentAnswers = questionAnswerSets;
+                score = null;
+            }
+            else
+            {
+                questionsAndStudentAnswers = newQuestionAnswerSets;
+                score = (scorePoss - scoreMistakes)  + " out of " +  scorePoss; //TODO out of 
+            }
+            
 
-        }
+            
+            let results = {
+                scorePercent: Math.round(((scorePoss - scoreMistakes)  / scorePoss * 100)),
+                score: score,
+                errors: errors,
+                questionsAndStudentAnswers: questionsAndStudentAnswers
+            }
+            if (mode == "withoutKey")
+            {
+                reportResult(results); 
+                
+
+            }
+            else
+            {
+                feedback(results);
+            }
+    }
+    }
+
+  
+    const submitAnswers = () =>
+    {
+        
+        check();
+    
     }
   
 
@@ -239,11 +381,11 @@ const GapFillExercise = (props) =>
                         newQuestionAnswerSets[qNumber].userAnswers[idx] = "";
                     })
                 }
-                console.log("reset", newQuestionAnswerSets);
                 setQuestionAnswerSets( 
                         newQuestionAnswerSets
                 );
                 setCheckButtonActive(true);
+                setConfirmMessage(undefined);
         }
     }
 
@@ -269,41 +411,26 @@ const GapFillExercise = (props) =>
 
     const handleChange = (e, questionNumber, fieldNumber) =>
     {
-        console.log("handleChange", e.currentTarget.value,questionNumber  );
         
-        //TODO try to do this with the shallow copy technique. 
+       
+       /* this is the old version which replaces the object completely 
+       
         let newQuestionAnswerSets = getUnLinkedCopy(questionAnswerSets);
         newQuestionAnswerSets[questionNumber].userAnswers[fieldNumber] = e.currentTarget.value;
         setQuestionAnswerSets( 
                 newQuestionAnswerSets
         );
-    }
+            */ 
+        
+           
+        /* TODO - the main problem is a chnage to any question causes all questions to be rerendered.
+            how to solve this?
+            
 
-    const processMeta = (metaData) =>
-    {
-        const meta = JSON.parse(metaData);
-        const loc = window.location.pathname;
-        console.log("loc", loc);
-        
-        let qLength;
-        let qaPairs = {};
-        console.log("meta",meta );
-        meta.questions.forEach((question, idx) => {
-            
-            let answer = question.answer.replace(/\|$/, '');
-        
-            const correctAnswers = answer.split('|');
-            
-            qLength = correctAnswers.length;
-           
-            var userAnswers = new Array();
-            for (let i = 0; i < qLength; i++)
-            {
-                userAnswers.push('');
-            }
-            
-           
-            qaPairs[question.questionNumber] = {
+             https://alexsidorenko.com/blog/react-update-nested-state/ interesting? 
+
+             for ref: 
+             qaPairs[question.questionNumber] = {
                 questionNumber: question.questionNumber,
                 question: question.question,
                 userAnswers:  userAnswers,
@@ -311,60 +438,68 @@ const GapFillExercise = (props) =>
                 status: "unmarked",
                 length: qLength
             }
-            
-        })
- 
-        setQuestionAnswerSets(qaPairs);
-        setMeta(meta);
+
+            this is an attempt, not working, to do the array update in place
+            https://stackoverflow.com/questions/76756681/react-how-to-update-a-nested-object-when-the-keys-are-variables
+             
+            userAnswers : [...prevState[questionNumber].userAnswers.slice(0, fieldNumber), e.currentTarget.value, 
+                    ...prevState[questionNumber].userAnswers.slice(fieldNumber + 1, 
+                        prevState[questionNumber].userAnswers.length)]
+                }
+             */
+
+    
+        let newUserAnswers = questionAnswerSets[questionNumber].userAnswers.map( (val, idx) => {
+            if (idx == fieldNumber) 
+            {
+                return e.currentTarget.value;
+            }
+            else
+            {
+                return val;
+            }
+        });
+   
+
+        /* this actually works - see SO post. But I prefer the readability of the map
+        let newVal = e.currentTarget.value;
+        [...prevState[questionNumber].userAnswers.slice(0, fieldNumber), newVal, 
+                    ...prevState[questionNumber].userAnswers.slice(fieldNumber + 1, 
+                        prevState[questionNumber].userAnswers.length)]
+                
+        */
+        
+
+        setQuestionAnswerSets((prevState) => { 
+                return {...prevState,
+                    [questionNumber] : {
+                    ...prevState[questionNumber],
+                    userAnswers : newUserAnswers
+                    }
+                }
+       });
+       
+           
+        
+
     }
 
-    useEffect(() => {
-        
-        if ((exercise != undefined) && (grammarTermsKeyed != null) && 
-            (exercise.grammar_terms.length > 0))
-        {
-            let tags = [];
-            exercise.grammar_terms.forEach((termId) =>
-            {   
-                tags.push(grammarTermsKeyed[termId].description);
-            });
-            setGrammarTags(tags);
-        }
-
-    },[exercise, grammarTermsKeyed]);    //TODO detect change to userSettings as well...    
-    //fetch("https://dev.kazanenglishacademy.com/test.php",
     
+
     useEffect(() => {
-        const enc = new Base64();
-        let headers = new Headers(); //browser api?
-        headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
-        //preflight does not send creds so need to fix server not to require creds for OPTIONS 
-        //did this use an If - request check to only check for creds if not options
-        fetch('https://dev.kazanenglishacademy.com/wp-json/wp/v2/kea_activity?slug=' + slug + '&data=json',
-        {
-            method:'GET',
-            headers: headers
-            
-        })
-            .then(response => response.json())
-            .then(data => 
-                {
-                    processMeta(data[0].meta._kea_activity_meta);
-                    //setMeta(meta);
-                    setExercise(data[0]);
-                }    
-        ).catch(function (error) {
-            setError(true);
-            setErrorMessage(error.message);
-        });
 
-        return function cleanUp() {
-
-        }
+        setGrammarTags(props.exercise.labels); //TDDO - test empty array case
+        produceQASets(props.exercise);
+       
         
-    },[]);    
+        
+    },[props.exercise]);   
+
+
     
     let questions;
+    const exercise = props.exercise;
+
    
     if ((typeof questionAnswerSets != "undefined") && 
     (Object.keys(questionAnswerSets).length >= 1)  )
@@ -379,22 +514,33 @@ const GapFillExercise = (props) =>
     }
 
     let buttons = <Buttons check={check} checkButtonActive={checkButtonActive}
-    resetExercise={resetExercise} showCorrectAnswers={showCorrectAnswers} 
-    userLang={userLang}></Buttons>;
+        resetExercise={resetExercise} showCorrectAnswers={showCorrectAnswers} 
+        userLang={userLang}
+        mode={exercise.mode}
+        submitAnswers={submitAnswers}></Buttons>;
 
     let message = '';
     if (hacker)
     {
         message = <StopHacking />
     }
+    let confirmMessageDisplay = '';
+    if (confirmMessage != undefined)
+    {
+        confirmMessageDisplay = <ConfirmMessageDisplay message={confirmMessage} />
+    }
 
+
+    
 
     return (
-        error ? <ErrorMessageDisplay message={errorMessage} />
+        error ? <ErrorMessageDisplay message={errorMessage} /> 
         : <div >
-            <h1 className="text-center">{meta ?  meta.title : ''}</h1>
+            <h1 className="text-center">{exercise ?  exercise.title : ''}</h1>
 
-             {message}   
+             {message}  
+             {confirmMessageDisplay} 
+             
             
             <div className="mt-3 mb-3 input-group has-validation">
             <label htmlFor="userName" className="form-label me-2">Name  </label> 
@@ -409,9 +555,9 @@ const GapFillExercise = (props) =>
             <div >
                 <div>
                     {/* TODO langs from constants/deployment config - nb also used in language-blocks */}
-                    {<Instructions models={meta ? meta.models  : undefined}
-                        explanation={meta ? meta.explanation  : undefined}
-                        instructions={meta ? meta.instructions  : undefined} langs={['ru', 'en']} 
+                    {<Instructions models={exercise ? exercise.models  : undefined}
+                        explanation={exercise ? exercise.explanation  : undefined}
+                        instructions={exercise ? exercise.instructions  : undefined} langs={['ru', 'en']} 
                         userLang={userLang}  />}
                 </div>
                 
@@ -441,7 +587,7 @@ const GapFillExercise = (props) =>
 const Buttons = (props) =>
 {
   
-    const {userLang, check, showCorrectAnswers, resetExercise, checkButtonActive} = props;
+    const {userLang, check, showCorrectAnswers, resetExercise, checkButtonActive, mode, submitAnswers} = props;
 
     let opts = {};
     if (checkButtonActive == false)
@@ -451,13 +597,23 @@ const Buttons = (props) =>
 
     return (
         <div className="mt-3">
-            <Button variant="primary" className="me-3" onClick={check} {...opts}>
-                {CapitalizeFirstLetter(LABELS[userLang]['check']['infinitive'])}
-            </Button>
+            {mode == 'withkey' ?
+                <Button variant="primary" className="me-3" onClick={check} {...opts}>
+                    {CapitalizeFirstLetter(LABELS[userLang]['check']['infinitive'])}
+                </Button> : ''
+            }
 
-            <Button variant="primary" className="me-3" onClick={showCorrectAnswers}>
-            {CapitalizeFirstLetter(LABELS[userLang]['showCorrectAnswers']['infinitive'])}
-            </Button>
+            {mode == 'withkey' ?
+                <Button variant="primary" className="me-3" onClick={showCorrectAnswers}>
+                {CapitalizeFirstLetter(LABELS[userLang]['showCorrectAnswers']['infinitive'])}
+                </Button> : ''
+            }
+
+            {mode == 'withoutkey' ?
+                <Button variant="primary" className="me-3" onClick={submitAnswers}>
+                {CapitalizeFirstLetter(LABELS[userLang]['submitformarking']['infinitive'])}
+                </Button> : ''
+            }
 
             <Button variant="primary" onClick={resetExercise}>
                         {CapitalizeFirstLetter(LABELS[userLang]['reset']['infinitive'])}
@@ -470,6 +626,7 @@ const Question = (props) =>
 {
     
     const {question, handleChange} = props;
+    console.log("propts", question);
     
 
     const getField = (question) =>
@@ -487,7 +644,7 @@ const Question = (props) =>
         {
             
             html = reactStringReplace(question.question, /(___)/g, (match, i) => 
-            {
+            {console.log("question", question.userAnswers[i], i);
                 return <input value={question.userAnswers[i]}  key={i} onChange={(e) =>
                         handleChange(e, question.questionNumber, i)}   />
             })
@@ -513,11 +670,13 @@ const Question = (props) =>
         feedback = <span></span>;
     }
 
+    /*
     let html = reactStringReplace(question.question, /(___)/g, (match, i) => 
     {
         return <input  value={question.userAnswers[i]}  key={i} 
         onChange={(e) => handleChange(e, question.questionNumber, i)}   />
     });
+    */
 
     return (
         <div className="exercise-question unmarked mt-3">
@@ -530,6 +689,7 @@ const Question = (props) =>
         </div>
     )
 }
+
 
 /*
     @param (array) langs all langs which user has access to 
