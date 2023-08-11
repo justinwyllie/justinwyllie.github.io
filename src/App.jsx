@@ -24,7 +24,7 @@ const CapitalizeFirstLetter = (string) => {
 const App = () => {
 
     return <>
-        z
+        <Data />
     </>
 
 }
