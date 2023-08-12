@@ -268,7 +268,7 @@ if (window.specialReactHook == undefined)
             .then(response => response.json())
             .then(data => 
                 {
-                    setConfirmMessage(CapitalizeFirstLetter(LABELS[userLang]['results_sent']['nominative']))
+                    setConfirmMessage(CapitalizeFirstLetter(LABELS[userLang]['answers_sent']['nominative']))
                 });
 
     }

@@ -29,7 +29,7 @@ const LABELS = {
             keeptrying: {infinitive: "keep trying"},
             youscored: {infinitive: "you scored"},
             percentsign: {nominative: "%"},
-            results_sent: {nominative: "Thank you. Your results have been sent."}
+            answers_sent: {nominative: "Thank you. Your answers have been sent."}
 
             
         },
@@ -60,7 +60,7 @@ const LABELS = {
             keeptrying: {infinitive: "keep trying"},
             youscored: {infinitive: "you scored"},
             percentsign: {nominative: "%"},
-            results_sent: {nominative: "Thank you. Your results have been sent."}
+            answers_sent: {nominative: "Thank you. Your answers have been sent."}
         }
 }
 
