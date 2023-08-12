@@ -46,6 +46,7 @@
             keaProfile.ID = '';
 
             window.onload = function () {
+                return;
                 var email = getCookie("kea-email");
                 var name = getCookie("kea-name");
                 if (email == "")
@@ -83,37 +84,7 @@
 
 
 
-            //https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out
-            document.addEventListener("DOMContentLoaded", function(event) { 
-                /*  
-                document.getElementById("logout").onclick = function()
-                {
-
-
-                    
-                    var callback = function(resp)
-                    {
-                        console.log(resp);
-                        
-                        if (resp.successful)
-                        {
-                            keaProfile.email = null;
-                            keaProfile.name = null;
-                            keaProfile.ID = null;
-                            google.accounts.id.disableAutoSelect();
-                            
-                            document.getElementById("userName").innerHTML = "";
-                            document.getElementById("logout").classList.add("d-none");
-                            document.getElementById("g-button").classList.remove("d-none");
-                        }
-                    }
-                    
-                    google.accounts.id.revoke(keaProfile.ID, callback);
-                    
-                    
-                }
-                */ 
-            });
+      
            
             
 
@@ -153,37 +124,14 @@
     </head>
 <body>
 
-<!-- 
-    <div id="g_id_onload"
-    data-client_id="440488237448-kv307jn3dakkotv473jo716jin1enbha.apps.googleusercontent.com"
-    data-context="signin"
-    data-ux_mode="popup"
-    data-callback="handleLogin"
-    data-auto_prompt="false">
-</div>
 
-<div id="g-button" class="g_id_signin"
-    data-type="standard"
-    data-shape="rectangular"
-    data-theme="outline"
-    data-text="signin_with"
-    data-size="large"
-    data-logo_alignment="left">
-</div>
--->
 
-<div class="user p-1" id="userName">
-    
 
-</div>
-<!-- 
-    <button id="logout" class="d-none">Logout</button>
--->
 
     <div id="root" class="container">
 
     </div>
 
-    <script src="/build/bundle.js?220"></script>
+    <script src="/build/bundle.js?230"></script>
 </body>
 </html>
