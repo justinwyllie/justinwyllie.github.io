@@ -1,6 +1,7 @@
 const DOMAIN = "dev.kazanenglishacademy.com";
-const DIRECT = "bc";
 const MODE = "dev";
+const SHOWLOGIN = false;
+const DIRECT = "bc";
 const LABELS = {
         ru: 
         {
@@ -12,6 +13,7 @@ const LABELS = {
             advanced: {nominative: "продвинутый уровень"},
             adults: {nominative: "Взрослые"},
             teens: {nominative: "Подростки"},
+            kids: {nominative: "Дети"},
             informal_english: {nominative: "Разговорная речь"},
             instructions: {nominative: "инструкция"},
             questions: {nominative: "задание"},
@@ -22,14 +24,17 @@ const LABELS = {
             reset: {infinitive: "восстановить"},
             models: {nominative: "примеры"},
             explanation: {nominative: "объяснение"},
+            theme: {nominative_plural: "темы"},
+            interactive_mode: {nominative: "интерактивный режим"},
+            no_items_in_category: {nominative: "Sorry. No items in this category yet."},
+            reset: {infinitive: "Reset"},
             checkandsubmit: {imperative: "проверьте и отправьте"},
             submitformarking: {infinitive: "отправить"},
             welldone: {infinitive: "well done"},
             congratulations: {infinitive: "congratulations"},
             keeptrying: {infinitive: "keep trying"},
             youscored: {infinitive: "you scored"},
-            percentsign: {nominative: "%"},
-            answers_sent: {nominative: "Thank you. Your answers have been sent."},
+            percentsign: {nominative: "%"}
 
             
         },
@@ -43,6 +48,7 @@ const LABELS = {
             intermediate: {nominative: "advanced"},
             adults: {nominative: "adults"},
             teens: {nominative: "teens"},
+            kids: {nominative: "kids"},
             informal_english: {nominative: "informal English"},
             instructions: {nominative: "instructions"},
             questions: {nominative: "questions"},
@@ -53,14 +59,17 @@ const LABELS = {
             reset: {infinitive: "reset"},
             models: {nominative: "models"},
             explanation: {nominative: "explanation"},
-            checkandsubmit: {imperative: "проверьте и отправьте"},
-            submitformarking: {infinitive: "отправить"},
+            theme: {nominative_plural: "themes"},
+            interactive_mode: {nominative: "interactive mode"},
+            no_items_in_category: {nominative: "Sorry. No items in this category yet."},
+            reset: {infinitive: "reset"},
+            checkandsubmit: {imperative: "check and Submit"},
+            submitformarking: {infinitive: "submit for marking"},
             welldone: {infinitive: "well done"},
             congratulations: {infinitive: "congratulations"},
             keeptrying: {infinitive: "keep trying"},
             youscored: {infinitive: "you scored"},
-            percentsign: {nominative: "%"},
-            answers_sent: {nominative: "Thank you. Your answers have been sent."}
+            percentsign: {nominative: "%"}
         }
 }
 
@@ -69,5 +78,6 @@ export
     DOMAIN,
     MODE,
     LABELS,
-    DIRECT
+    DIRECT,
+    SHOWLOGIN
 };
