@@ -81,6 +81,7 @@ const ExerciseContainer = () => {
 
             // e.g. https://justinwyllie.github.io/?q=modals-in-the-past-2&postId=3937&key=2103456251
             // e.g. https://justinwyllie.github.io/modals-in-the-past-2/39372103456251
+           
             setSlug(bits[1]);
             setExKey(bits[3]);
             url =  'https://' + DOMAIN + '/wp-json/kea_activities/v1/json_post/' + bits[2] + "/" +  bits[3];
