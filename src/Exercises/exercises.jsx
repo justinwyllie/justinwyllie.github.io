@@ -1,7 +1,7 @@
 import { GapFillExercise } from './gapfill';
 import { MultipleChoiceExercise } from './multiplechoice';
 import React, { useState, useEffect } from "react";
-import {  DOMAIN, MODE } from "../Constants";
+import {  DOMAIN, MODE, JSONPATH } from "../Constants";
 import { ErrorMessageDisplay } from "./components";
 import { Base64 } from 'base64-string';
 import { Loading } from './shared-components';
