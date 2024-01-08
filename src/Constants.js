@@ -1,5 +1,6 @@
 const DOMAIN = "justinwyllie.github.io";
 const JSONPATH = "dev.kazanenglishacademy.com";
+const RESULTSPATH = "onlinerepititor.ru";
 const MODE = "dev";
 const SHOWLOGIN = true;
 const DIRECT = "bc";
@@ -81,5 +82,6 @@ export
     LABELS,
     DIRECT,
     SHOWLOGIN,
-    JSONPATH
+    JSONPATH,
+    RESULTSPATH
 };

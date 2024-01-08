@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Base64 } from 'base64-string';
 
-import {  LABELS, DOMAIN, MODE, SHOWLOGIN } from "../Constants";
+import {  LABELS, RESULTSPATH, MODE, SHOWLOGIN } from "../Constants";
 
 import { CapitalizeFirstLetter} from "../helpers";
 import { shuffle } from "underscore";
@@ -150,7 +150,7 @@ const MultipleChoiceExercise = (props) =>
         results.ex_key = props.exKey;
        
         
-        fetch("https://" + DOMAIN + "/json/results",
+        fetch("https://" + RESULTSPATH + "/json/results",
         {
             method:'POST',
             headers: headers,

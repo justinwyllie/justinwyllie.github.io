@@ -3,7 +3,7 @@ import * as jose from "jose";
 window.decodeJwt = jose.decodeJwt;
 import { Base64 } from 'base64-string';
 
-import {  LABELS, DOMAIN, MODE, SHOWLOGIN } from "../Constants";
+import {  LABELS, RESULTSPATH, MODE, SHOWLOGIN } from "../Constants";
 
 import { CapitalizeFirstLetter } from "./shared-components";
 
@@ -121,9 +121,11 @@ const GapFillExercise = (props) =>
         setConfirmMessage(message);
     }
 
+    //TODO shared with multiplechoice - make into a component
     const reportResult = (questionsAndStudentAnswers) =>
     {
 
+        /*
         let headers;
         if (MODE == 'dev')
         {
@@ -134,10 +136,14 @@ const GapFillExercise = (props) =>
             //preflight does not send creds so need to fix server not to require creds for OPTIONS 
             //did this use an If - request check to only check for creds if not options
         }
+     
         
         headers.set('Content-Type', 'application/json; charset=UTF-8');
         //needed for Express to grasp that it is an Ajax request
         headers.set('X-Requested-With', 'XMLHttpRequest');
+
+         headers: headers,
+        */
 
         let results  = {};
         results.mode = props.exercise.mode;
@@ -151,10 +157,9 @@ const GapFillExercise = (props) =>
         results.ex_key = props.exKey;
        
         
-        fetch("https://" + DOMAIN + "/json/results",
+        fetch("https://" + RESULTSPATH + "/json/results",
         {
             method:'POST',
-            headers: headers,
             body: JSON.stringify(results)
             
         })
