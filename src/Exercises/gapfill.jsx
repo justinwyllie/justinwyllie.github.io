@@ -3,7 +3,7 @@ import * as jose from "jose";
 window.decodeJwt = jose.decodeJwt;
 import { Base64 } from 'base64-string';
 
-import {  LABELS, DOMAIN, MODE } from "../Constants";
+import {  LABELS, DOMAIN, MODE, SHOWLOGIN } from "../Constants";
 
 import { CapitalizeFirstLetter } from "./shared-components";
 
