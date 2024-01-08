@@ -25,6 +25,7 @@ const ExerciseContainer = () => {
 
         const path = window.location.pathname;
         bits = path.split('/');
+       
 
 
         /*
@@ -47,6 +48,7 @@ const ExerciseContainer = () => {
 
         */
         let url;
+        let request;
         if (DOMAIN == "onlinerepititor.ru")
         {
             setSlug(bits[1]);
@@ -54,6 +56,9 @@ const ExerciseContainer = () => {
             //this is to the node app on repi? 2 is postId
             //the ex. returned has mode withkey or withoutkey
             url = '//' + JSONPATH + '/json/' + bits[1] + "/" +  bits[2] + "/" + bits[3];
+            request = {
+                method: "GET"
+            }
         }
         else if (DOMAIN.match(/kazanenglish/gi) !== null)
         {
@@ -62,15 +67,19 @@ const ExerciseContainer = () => {
             url = '//' + JSONPATH + '/wp-json/kea_activities/v1/json_post2/' + bits[4];
             //so - the ex returned does not have mode on it? and does not have a key (as in id not answer key!) as this was never in the url/part of the story on kea
             //do we add mode=withkey here so that in gapfill the right buttons are displayed? how come they are displayed right now? or in WP endpoint?
+            request = {
+                method: "GET"
+            }
            
            
         }
         else //will be gitbub and url will be query string
         {
 
-            let headers;
+            
        
             const enc = new Base64();
+            let headers;
             headers = new Headers(); //browser api?
             headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
             
@@ -81,6 +90,10 @@ const ExerciseContainer = () => {
             //headers.set('X-Requested-With', 'XMLHttpRequest');
 
             console.log("headers", headers);
+            request = {
+                method: "GET",
+                headers: headers
+            }
 
             // e.g. https://justinwyllie.github.io/?q=modals-in-the-past-2&postId=3937&key=2103456251
             const query = window.location.search;
@@ -101,13 +114,7 @@ const ExerciseContainer = () => {
         console.log("url", DOMAIN, JSONPATH, url);
 
 
-        fetch(url,
-        {
-            method:'GET',
-            headers: headers
-            
-        })
-        .then(response => {
+        fetch(url, request).then(response => {
             if (response.ok)
             {
                 return response.json();
