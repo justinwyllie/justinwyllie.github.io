@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import {  DOMAIN, MODE } from "../Constants";
 import { ErrorMessageDisplay } from "./components";
 import { Base64 } from 'base64-string';
-import { Loading } from '../SharedComponents/shared-components';
+import { Loading } from './shared-components';
 
 
 
@@ -76,15 +76,21 @@ const ExerciseContainer = () => {
            
            
         }
-        else //will be gitbub e.g. https://justinwyllie.github.io/?q=modals-in-the-past-2&postId=3937&key=2103456251
+        else //will be gitbub and url will be query string
         {
 
             // e.g. https://justinwyllie.github.io/?q=modals-in-the-past-2&postId=3937&key=2103456251
-            // e.g. https://justinwyllie.github.io/modals-in-the-past-2/39372103456251
-           
-            setSlug(bits[1]);
+            var query = window.location.search;
+            var urlParams = new URLSearchParams(query);
+            const q = urlParams.get('q');
+            setSlug(q);
+            const key = urlParams.get('key');
+            setExKey(key);
+            const postId = urlParams('postId');
+
+          
             setExKey(bits[3]);
-            url =  'https://' + DOMAIN + '/wp-json/kea_activities/v1/json_post/' + bits[2] + "/" +  bits[3];
+            url =  'https://' + DOMAIN + '/wp-json/kea_activities/v1/json_post/' + postId + "/" +  key;
         }
 
         console.log("url", DOMAIN, url);

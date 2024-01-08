@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CapitalizeFirstLetter } from "../helpers";
+import { CapitalizeFirstLetter } from "./shared-components";
 import { LABELS } from '../Constants';
 import { Button } from 'react-bootstrap';
 import {  Check, X, Plus, Dash } from 'react-bootstrap-icons';

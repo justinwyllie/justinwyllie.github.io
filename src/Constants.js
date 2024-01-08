@@ -1,6 +1,6 @@
-const DOMAIN = "dev.kazanenglishacademy.com";
+const DOMAIN = "justinwyllie.github.io";
 const MODE = "dev";
-const SHOWLOGIN = false;
+const SHOWLOGIN = true;
 const DIRECT = "bc";
 const LABELS = {
         ru: 

@@ -5,13 +5,13 @@ import { Base64 } from 'base64-string';
 
 import {  LABELS, DOMAIN, MODE } from "../Constants";
 
-import { CapitalizeFirstLetter} from "../helpers";
+import { CapitalizeFirstLetter } from "./shared-components";
 
 
 
 
 import { Instructions, GapFillQuestion,  Buttons, ErrorMessageDisplay, ConfirmMessageDisplay} from './components';
-import { StopHacking } from '../SharedComponents/shared-components';
+import { StopHacking } from './shared-components';
 import { Login } from '../Account/Login';
 
 
@@ -39,11 +39,13 @@ const GapFillExercise = (props) =>
     //const [exercise, setExercise] = useState(props.exercise ? props.exercise : undefined);
     
 
-    
     useEffect(() => {
-
         
-        Login(setUserName, setUserEmail);
+        if (SHOWLOGIN)
+        {
+            Login(setUserName, setUserEmail);
+        }
+        
         
     }, []);   
 

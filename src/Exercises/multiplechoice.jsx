@@ -8,7 +8,7 @@ import { shuffle } from "underscore";
 
 
 import { Instructions, MultipleChoiceQuestion, Buttons, ErrorMessageDisplay, ConfirmMessageDisplay} from './components';
-import { StopHacking } from '../SharedComponents/shared-components';
+import { StopHacking } from './shared-components';
 import { Login } from '../Account/Login';
 import Form from 'react-bootstrap/Form';
 //import { useRef } from 'react';   
