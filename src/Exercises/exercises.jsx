@@ -21,18 +21,7 @@ const ExerciseContainer = () => {
 
     let bits;
     useEffect(() => {
-        let headers;
-        if (MODE == 'dev')
-        {
-            const enc = new Base64();
-            headers = new Headers(); //browser api?
-            headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
-            
-            //preflight does not send creds so need to fix server not to require creds for OPTIONS 
-            //did this use an If - request check to only check for creds if not options
-        }
-        headers.set('Content-Type', 'application/json; charset=UTF-8');
-        headers.set('X-Requested-With', 'XMLHttpRequest');
+        
 
         const path = window.location.pathname;
         bits = path.split('/');
@@ -78,6 +67,20 @@ const ExerciseContainer = () => {
         }
         else //will be gitbub and url will be query string
         {
+
+            let headers;
+       
+            const enc = new Base64();
+            headers = new Headers(); //browser api?
+            headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
+            
+            //preflight does not send creds so need to fix server not to require creds for OPTIONS 
+            //did this use an If - request check to only check for creds if not options
+        
+            headers.set('Content-Type', 'application/json; charset=UTF-8');
+            headers.set('X-Requested-With', 'XMLHttpRequest');
+
+            console.log("headers", headers);
 
             // e.g. https://justinwyllie.github.io/?q=modals-in-the-past-2&postId=3937&key=2103456251
             const query = window.location.search;
