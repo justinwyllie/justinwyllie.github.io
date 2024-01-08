@@ -1,7 +1,7 @@
 const DOMAIN = "justinwyllie.github.io";
 const JSONPATH = "dev.kazanenglishacademy.com";
 const MODE = "dev";
-const SHOWLOGIN = false;
+const SHOWLOGIN = true;
 const DIRECT = "bc";
 const LABELS = {
         ru: 
