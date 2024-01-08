@@ -80,8 +80,10 @@ const ExerciseContainer = () => {
         {
 
             // e.g. https://justinwyllie.github.io/?q=modals-in-the-past-2&postId=3937&key=2103456251
-            var query = window.location.search;
-            var urlParams = new URLSearchParams(query);
+            const query = window.location.search;
+            console.log("d1", query);
+            const urlParams = new window.URLSearchParams(query);
+            console.log("d2", urlParams);
             const q = urlParams.get('q');
             setSlug(q);
             const key = urlParams.get('key');
