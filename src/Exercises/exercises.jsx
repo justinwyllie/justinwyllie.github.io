@@ -64,13 +64,13 @@ const ExerciseContainer = () => {
             setExKey(bits[3]);
             //this is to the node app on repi? 2 is postId
             //the ex. returned has mode withkey or withoutkey
-            url = '//' + DOMAIN + '/json/' + bits[1] + "/" +  bits[2] + "/" + bits[3];
+            url = '//' + JSONPATH + '/json/' + bits[1] + "/" +  bits[2] + "/" + bits[3];
         }
         else if (DOMAIN.match(/kazanenglish/gi) !== null)
         {
             //register_rest_route( 'kea_activities/v1', '/json_post/(?P<post_id>\d+)/(?P<key>\d+)', array( is custom endpoint gets json from spec table
             setSlug(bits[4]);
-            url = '//' + DOMAIN + '/wp-json/kea_activities/v1/json_post2/' + bits[4];
+            url = '//' + JSONPATH + '/wp-json/kea_activities/v1/json_post2/' + bits[4];
             //so - the ex returned does not have mode on it? and does not have a key (as in id not answer key!) as this was never in the url/part of the story on kea
             //do we add mode=withkey here so that in gapfill the right buttons are displayed? how come they are displayed right now? or in WP endpoint?
            
@@ -92,10 +92,10 @@ const ExerciseContainer = () => {
 
           
             setExKey(bits[3]);
-            url =  'https://' + DOMAIN + '/wp-json/kea_activities/v1/json_post/' + postId + "/" +  key;
+            url =  'https://' + JSONPATH + '/wp-json/kea_activities/v1/json_post/' + postId + "/" +  key;
         }
 
-        console.log("url", DOMAIN, url);
+        console.log("url", DOMAIN, JSONPATH, url);
 
 
         fetch(url,
