@@ -88,7 +88,7 @@ const ExerciseContainer = () => {
             setSlug(q);
             const key = urlParams.get('key');
             setExKey(key);
-            const postId = urlParams('postId');
+            const postId = urlParams.get('postId');
 
           
             setExKey(bits[3]);
