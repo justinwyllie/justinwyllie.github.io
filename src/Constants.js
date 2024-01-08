@@ -80,5 +80,6 @@ export
     MODE,
     LABELS,
     DIRECT,
-    SHOWLOGIN
+    SHOWLOGIN,
+    JSONPATH
 };
