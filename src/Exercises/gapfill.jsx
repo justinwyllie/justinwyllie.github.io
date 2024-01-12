@@ -164,10 +164,7 @@ const GapFillExercise = (props) =>
             method:'POST',
             body: JSON.stringify(results),
           
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-                "X-Requested-With": "XMLHttpRequest"
-            }
+           
             
         })
             .then(response => {
