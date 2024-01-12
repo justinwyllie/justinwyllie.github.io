@@ -157,15 +157,17 @@ const GapFillExercise = (props) =>
         results.title = props.exercise.title;
         results.ex_key = props.exKey;
         //TODO this is duped in mc
+
+        headers = new Headers(); 
+        headers.set('Content-Type', 'application/json; charset=UTF-8');
+        headers.set('X-Requested-With', 'XMLHttpRequest');
         
         fetch("https://" + RESULTSPATH + "/json/results",
         {
             method:'POST',
             body: JSON.stringify(results),
             mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers: headers
             
         })
             .then(response => {
