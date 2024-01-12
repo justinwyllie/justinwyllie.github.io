@@ -166,8 +166,7 @@ const GapFillExercise = (props) =>
           
            
             
-        })
-            .then(response => {
+        }).then(response => {
                 if (response.ok)
                 {
                     return response.json();
