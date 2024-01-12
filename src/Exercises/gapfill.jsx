@@ -164,8 +164,7 @@ const GapFillExercise = (props) =>
             body: JSON.stringify(results),
             mode: 'cors',
             headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
+                'Content-Type': 'application/json'
             }
             
         })
