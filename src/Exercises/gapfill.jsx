@@ -157,7 +157,7 @@ const GapFillExercise = (props) =>
         results.title = props.exercise.title;
         results.ex_key = props.exKey;
         //TODO this is duped in mc
-
+        let headers;
         headers = new Headers(); 
         headers.set('Content-Type', 'application/json; charset=UTF-8');
         headers.set('X-Requested-With', 'XMLHttpRequest');
