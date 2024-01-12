@@ -153,14 +153,20 @@ const GapFillExercise = (props) =>
         results.name = userName;
         results.email = userEmail;
         results.post_id = props.exercise.post_id;
+        console.log("ex", exercise);
         results.title = props.exercise.title;
         results.ex_key = props.exKey;
-       
+        //TODO this is duped in mc
         
         fetch("https://" + RESULTSPATH + "/json/results",
         {
             method:'POST',
-            body: JSON.stringify(results)
+            body: JSON.stringify(results),
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
             
         })
             .then(response => {
