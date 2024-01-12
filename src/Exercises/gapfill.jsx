@@ -143,11 +143,6 @@ const GapFillExercise = (props) =>
         headers.set('X-Requested-With', 'XMLHttpRequest');
 
          headers: headers,
-          headers: {
-                "X-Requested-With" : "XMLHttpRequest",
-                "Content-Type" : "application/json; charset=UTF-8"
-            }
-           
         */
 
         let results  = {};
@@ -162,13 +157,13 @@ const GapFillExercise = (props) =>
         results.title = props.exercise.title;
         results.ex_key = props.exKey;
         //TODO this is duped in mc
-      
+      console.log("tttttttttttttttt");
         
         fetch("https://" + RESULTSPATH + "/test",
         {
             method:'POST',
-            body: JSON.stringify(results)
-           
+            body: JSON.stringify(results),
+          
            
             
         })
