@@ -159,15 +159,11 @@ const GapFillExercise = (props) =>
         //TODO this is duped in mc
       
         
-        fetch("https://" + RESULTSPATH + "/json/results",
+        fetch("https://" + RESULTSPATH + "/json/results?q=2",
         {
-            method:'POST',
-            body: JSON.stringify(results),
-            mode: "cors",
-            headers: {
-                "X-Requested-With" : "XMLHttpRequest",
-                "Content-Type" : "application/json; charset=UTF-8"
-            }
+            method:'GET',
+         
+         
            
             
         })
