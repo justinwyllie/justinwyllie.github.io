@@ -159,7 +159,7 @@ const GapFillExercise = (props) =>
         //TODO this is duped in mc
       
         
-        fetch("https://" + RESULTSPATH + "/json/results/2",
+        fetch("https://" + RESULTSPATH + "/json/2",
         {
             method:'GET'
          
