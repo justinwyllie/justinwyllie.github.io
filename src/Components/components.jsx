@@ -14,4 +14,32 @@ import Alert from 'react-bootstrap/Alert';
 
 
 
-export default ErrorMessageDisplay; 
+const ConfirmMessageDisplay = (props) => {
+
+    let status;
+    if (!props.status)
+    {
+        status = "success";
+    }
+    else
+    {   
+        status = props.status;
+    }
+   
+    return (
+        <div className={`alert alert-${status}`} role="alert">
+            {props.message}
+        </div>
+    )
+
+}
+
+
+
+
+
+export {
+
+    ErrorMessageDisplay,
+    ConfirmMessageDisplay
+}
