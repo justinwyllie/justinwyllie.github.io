@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Dynamic form</title>
+
+    <style>
+
+        body
+        {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        section
+        {
+            border: 1px solid #000000;
+            padding: 10px;
+        }
+
+        /*in CSS this means a <section> element with the CLASS .flexbox applied to it*/
+        section.flexbox
+        {
+            display: flex;
+            justify-content: space-between;
+            
+
+        }
+
+        .col
+        {
+            width: 30%;
+        }
+
+        /*a section element with both .flexbox and .hide applied to it*/
+        section.flexbox.hide
+        {
+            display: none;
+        }
+
+
+    </style>
+    <script>
+
+        function procesMenuChoices()
+        {   
+            //this is not a good pattern. (temporary TODO)
+            window.event.preventDefault(); //stops the form processing in the normal
+            //way which is not what we want here as we are doing an AJAX post
+            //to a different web server
+
+            //this is the script on the server which handles the email
+            //you need to replace this with your own
+            //SEE: https://developer.mozilla.org/ru/docs/Web/API/Fetch_API 
+
+            /* JSON
+
+                JSON is a way of organising data to send over the Internet:
+                {name : value, name : value}
+                e.g.
+                {"name": "Fred", "Age": 15}
+
+            */
+
+            //we need to get the actual values from the fields
+            /*
+                you could do:
+                var el = document.getElementById("name");
+                var tea = el.value;
+                but you can also 'chain' the methods as we do here, which is more convenient
+            */
+            var name = document.getElementById("name").value;
+            var tea = document.getElementById("tea").value;
+            var coffee = document.getElementById("coffee").value;
+
+            
+
+
+            fetch('https://online.kazanenglishacademy.com/ajax-handler.php',
+            {
+                method:'POST',
+                body: JSON.stringify({ "name": name, "tea": tea, "coffee": coffee})
+                
+            }).then(response => response.json()).then(data => 
+                    {
+                        alert("Your breakfast order has been taken")
+                    });
+            
+        }
+
+        function setDrinksOptions()
+        {
+            //get a handle on the drink select box
+            var el = document.getElementById("drink");
+            //selectedIndex is the number of the menu item selected by the user, starts at 0
+            var selected = el.selectedIndex;
+            if (selected == 0) //so "Select.."
+            {
+                
+              
+                document.getElementById("show_teas").classList.add("hide");
+                document.getElementById("show_coffees").classList.add("hide");
+                
+                
+            }
+            else if (selected == 1) //so tea
+            {
+                
+                document.getElementById("show_teas").classList.remove("hide");
+                document.getElementById("show_coffees").classList.add("hide");
+                
+            }
+            else if (selected == 2) //coffee
+            {
+                    
+                document.getElementById("show_teas").classList.add("hide");
+                document.getElementById("show_coffees").classList.remove("hide");
+            }
+        }
+
+
+    </script>
+
+</head>
+<body>
+    <form id="menu" onsubmit="procesMenuChoices()">
+        <h1>Choose your breakfast</h1>
+
+        <div class="col">
+
+            <section class="flexbox">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" >
+            </section>
+
+
+            <section class="flexbox">
+                <label for="drink">Drink</label>
+                <select  id="drink" name="drink" onchange="setDrinksOptions()" >
+                    <option value="Select..">Select..</option>
+                    <option value="Tea">Tea</option>
+                    <option value="Coffee">Coffee</option>
+                </select>
+            </section>
+
+            <section class="flexbox hide" id="show_teas">
+                <label for="tea">Tea</label>
+                <select  id="tea" name="tea"  >
+                    <option value="Select..">Select..</option>
+                    <option value="Green">Green</option>
+                    <option value="Black">Black</option>
+                </select>
+            </section>
+
+            <section class="flexbox hide" id="show_coffees">
+                <label for="coffee">Coffee</label>
+                <select  id="coffee" name="coffee"  >
+                    <option value="Select..">Select..</option>
+                    <option value="Cappuccino">Cappuccino</option>
+                    <option value="Americano">Americano</option>
+                </select>
+            </section>
+
+            <section >
+                <button type="submit">Send Order</button>
+            </section>
+
+            
+
+        </div>
+    </form>
+    
+</body>
+</html>
