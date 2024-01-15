@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Dynamic form</title>
+
+    <style>
+
+        body
+        {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        section
+        {
+            border: 1px solid #000000;
+            padding: 10px;
+        }
+
+        /*in CSS this means a <section> element with the CLASS .flexbox applied to it*/
+        section.flexbox
+        {
+            display: flex;
+            justify-content: space-between;
+            
+
+        }
+
+        .col
+        {
+            width: 30%;
+        }
+
+
+
+    </style>
+    <script>
+
+        function procesMenuChoices()
+        {   
+            //this is not a good pattern. (temporary TODO)
+            window.event.preventDefault(); //stops the form processing in the normal
+            //way which is not what we want here as we are doing an AJAX post
+            //to a different web server
+
+            //this is the script on the server which handles the email
+            //you need to replace this with your own
+            //SEE: https://developer.mozilla.org/ru/docs/Web/API/Fetch_API 
+
+            /* JSON
+
+                JSON is a way of organising data to send over the Internet:
+                {name : value, name : value}
+                e.g.
+                {"name": "Fred", "Age": 15}
+
+            */
+
+            //we need to get the actual values from the fields
+            /*
+                you could do:
+                var el = document.getElementById("name");
+                var tea = el.value;
+                but you can also 'chain' the methods as we do here, which is more convenient
+            */
+            var name = document.getElementById("name").value;
+            var drink = document.getElementById("drink").value;
+            var food = document.getElementById("food").value;
+
+            
+
+
+            fetch('https://online.kazanenglishacademy.com/ajax-handler3.php',
+            {
+                method:'POST',
+                body: JSON.stringify({ "name": name, "drink": drink, "food": food})
+                
+            }).then(response => response.json()).then(data => 
+                    {
+                        alert("Your breakfast order has been taken")
+                    });
+            
+        }
+
+       
+
+    </script>
+
+</head>
+<body>
+    <form id="menu" onsubmit="procesMenuChoices()">
+        <h1>Choose your breakfast</h1>
+
+        <div class="col">
+
+            <section class="flexbox">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" >
+            </section>
+
+
+            <section class="flexbox">
+                <label for="drink">Drink</label>
+                <select  id="drink" name="drink"  >
+                    <option value="Select..">Select..</option>
+                    <option value="Tea">Tea</option>
+                    <option value="Coffee">Coffee</option>
+                </select>
+            </section>
+
+            <section class="flexbox" id="show_foods">
+                <label for="food">Food</label>
+                <select  id="food" name="food"  >
+                    <option value="Select..">Select..</option>
+                    <option value="Porridge">Porridge</option>
+                    <option value="Flakes">Flakes</option>
+                </select>
+            </section>
+
+          
+
+            <section >
+                <button type="submit">Send Order</button>
+            </section>
+
+            
+
+        </div>
+    </form>
+    
+</body>
+</html>
