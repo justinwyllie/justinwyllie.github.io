@@ -89,9 +89,23 @@
 
         function setDrinksOptions()
         {
+
+
+            //reset tea and coffee
+            var tea = document.getElementById("tea");
+            var coffee = document.getElementById("coffee");
+            tea.selectedIndex = 0;
+            coffee.selectedIndex = 0;
+
+
+
             //get a handle on the drink select box
             var el = document.getElementById("drink");
             //selectedIndex is the number of the menu item selected by the user, starts at 0
+
+
+
+
             var selected = el.selectedIndex;
             if (selected == 0) //so "Select.."
             {
