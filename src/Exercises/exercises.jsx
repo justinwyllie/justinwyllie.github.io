@@ -11,6 +11,7 @@ import { Loading } from './shared-components';
 
 const ExerciseContainer = () => {
 
+    const [getJson, setGetJson] = useState(false);
    
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -51,14 +52,19 @@ const ExerciseContainer = () => {
         let request;
         if (DOMAIN == "onlinerepititor.ru")
         {
-            setSlug(bits[1]);
-            setExKey(bits[3]);
-            //this is to the node app on repi? 2 is postId
-            //the ex. returned has mode withkey or withoutkey
-            url = '//' + JSONPATH + '/json/' + bits[1] + "/" +  bits[2] + "/" + bits[3];
-            request = {
-                method: "GET"
+            if (bits.length > 3)
+            {
+                setGetJson(true);
+                setSlug(bits[1]);
+                setExKey(bits[3]);
+                //this is to the node app on repi? 2 is postId
+                //the ex. returned has mode withkey or withoutkey
+                url = '//' + JSONPATH + '/json/' + bits[1] + "/" +  bits[2] + "/" + bits[3];
+                request = {
+                    method: "GET"
+                }
             }
+           
         }
         else if (DOMAIN.match(/kazanenglish/gi) !== null)
         {
