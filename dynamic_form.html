@@ -69,6 +69,7 @@
                 but you can also 'chain' the methods as we do here, which is more convenient
             */
             var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
             var tea = document.getElementById("tea").value;
             var coffee = document.getElementById("coffee").value;
 
@@ -78,7 +79,7 @@
             fetch('https://online.kazanenglishacademy.com/ajax-handler2.php',
             {
                 method:'POST',
-                body: JSON.stringify({ "name": name, "tea": tea, "coffee": coffee})
+                body: JSON.stringify({ "name": name, "tea": tea, "coffee": coffee, "email": email})
                 
             }).then(response => response.json()).then(data => 
                     {
