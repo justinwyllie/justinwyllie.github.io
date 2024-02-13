@@ -1,6 +1,6 @@
 import * as jose from "jose";
 window.decodeJwt = jose.decodeJwt;
-import { setCookie, getCookie } from '../helpers';
+import { setCookie, getCookie } from './helpers';
 
 
 const Login = (setUserName, setUserEmail) =>

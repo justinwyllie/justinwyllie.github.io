@@ -1,11 +1,3 @@
-import React from "react";
-
-const CapitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-
-
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -29,10 +21,8 @@ function getCookie(cname) {
     return "";
 }
 
-export {
-
-    CapitalizeFirstLetter,
-
-    setCookie,
-    getCookie
+export
+{
+    getCookie,
+    setCookie
 }

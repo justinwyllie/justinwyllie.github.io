@@ -3,7 +3,7 @@ import * as jose from "jose";
 window.decodeJwt = jose.decodeJwt;
 import { Base64 } from 'base64-string';
 
-import {  LABELS, RESULTSPATH, MODE, SHOWLOGIN } from "../Constants";
+import {  LABELS, RESULTSPATH, DOMAIN, MODE, SHOWLOGIN } from "../Constants";
 
 import { CapitalizeFirstLetter } from "./shared-components";
 
@@ -121,29 +121,26 @@ const GapFillExercise = (props) =>
         setConfirmMessage(message);
     }
 
-    //TODO shared with multiplechoice - make into a component
+    //TODO duped in MC
     const reportResult = (questionsAndStudentAnswers) =>
     {
 
+        let headers = new Headers(); //browser api?
         /*
-        let headers;
         if (MODE == 'dev')
         {
             const enc = new Base64();
-            headers = new Headers(); //browser api?
+            
             headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
             
             //preflight does not send creds so need to fix server not to require creds for OPTIONS 
             //did this use an If - request check to only check for creds if not options
         }
-     
+        */
         
         headers.set('Content-Type', 'application/json; charset=UTF-8');
         //needed for Express to grasp that it is an Ajax request
         headers.set('X-Requested-With', 'XMLHttpRequest');
-
-         headers: headers,
-        */
 
         let results  = {};
         results.mode = props.exercise.mode;
@@ -153,24 +150,18 @@ const GapFillExercise = (props) =>
         results.name = userName;
         results.email = userEmail;
         results.post_id = props.exercise.post_id;
-        console.log("ex", exercise);
         results.title = props.exercise.title;
         results.ex_key = props.exKey;
-        //TODO this is duped in mc
-      console.log("tttttttttttttttt");
+       
         
-        fetch("https://" + RESULTSPATH + "/test",
+        fetch("https://" + RESULTSPATH + "/json/results",
         {
             method:'POST',
-            body: JSON.stringify(results),
-            headers: {
-                "Content-Type" : "application/json; charset=UTF-8"
-
-            }
-           
+            headers: headers,
+            body: JSON.stringify(results)
             
-        }).then(response => {
-                console.log("here");
+        })
+            .then(response => {
                 if (response.ok)
                 {
                     return response.json();

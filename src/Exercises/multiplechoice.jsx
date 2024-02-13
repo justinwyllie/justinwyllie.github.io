@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Base64 } from 'base64-string';
 
-import {  LABELS, RESULTSPATH, MODE, SHOWLOGIN } from "../Constants";
+import {  LABELS, RESULTSPATH, DOMAIN, MODE, SHOWLOGIN } from "../Constants";
 
-import { CapitalizeFirstLetter} from "../helpers";
+import { CapitalizeFirstLetter} from "./helpers";
 import { shuffle } from "underscore";
 
 
@@ -123,16 +123,18 @@ const MultipleChoiceExercise = (props) =>
     {
         console.log("reportResult", questionsAndStudentAnswers);
 
-        let headers;
+        let headers = new Headers(); //browser api?
+        /*
         if (MODE == 'dev')
         {
             const enc = new Base64();
-            headers = new Headers(); //browser api?
+            
             headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
             
             //preflight does not send creds so need to fix server not to require creds for OPTIONS 
             //did this use an If - request check to only check for creds if not options
         }
+        */
         
         headers.set('Content-Type', 'application/json; charset=UTF-8');
         //needed for Express to grasp that it is an Ajax request

@@ -7,7 +7,47 @@ import { Base64 } from 'base64-string';
 import { Loading } from './shared-components';
 
 
+//site specific menus/navbar
+//todo react links?
+//TODO - move out 
+const Menu = () => {
 
+    if (DOMAIN == "onlinerepititor.ru")
+    {
+        let html;
+
+        const Nav = () => {
+            return(
+            <><div className="menu"><a href="/">Home</a></div>
+            <h1>Online Repititor</h1></>
+            );
+        }
+
+        if (window.location.href == "https://onlinerepititor.ru/")
+        {
+           
+
+            html = <div>
+                <Nav />
+                <h2>Online site to help you with your studies</h2>
+                <p>Ask your teacher or tutor for a link to get started!</p>
+            </div>
+        }
+        else
+        {
+            html = <Nav />;
+        }
+
+
+        return(
+            html
+        )
+    }
+    else
+    {
+        return(<></>);
+    }
+}
 
 const ExerciseContainer = () => {
 
@@ -50,7 +90,9 @@ const ExerciseContainer = () => {
         */
         let url;
         let request;
-        if (DOMAIN == "onlinerepititor.ru")
+        let headers;
+        headers = new Headers();
+        if (DOMAIN == "onlinerepititor.ru") //get json from same site
         {
             if (bits.length > 3)
             {
@@ -59,35 +101,40 @@ const ExerciseContainer = () => {
                 setExKey(bits[3]);
                 //this is to the node app on repi? 2 is postId
                 //the ex. returned has mode withkey or withoutkey
+                headers.set('Content-Type', 'application/json; charset=UTF-8');
                 url = '//' + JSONPATH + '/json/' + bits[1] + "/" +  bits[2] + "/" + bits[3];
                 request = {
-                    method: "GET"
+                    method: "GET",
+                    headers: headers
+
                 }
             }
            
         }
-        else if (DOMAIN.match(/kazanenglish/gi) !== null)
+        else if (DOMAIN.match(/kazanenglish/gi) !== null) //get json from custom endpoint on dev.kea
         {
             //register_rest_route( 'kea_activities/v1', '/json_post/(?P<post_id>\d+)/(?P<key>\d+)', array( is custom endpoint gets json from spec table
             setSlug(bits[4]);
+            headers.set('Content-Type', 'application/json; charset=UTF-8');
             url = '//' + JSONPATH + '/wp-json/kea_activities/v1/json_post2/' + bits[4];
             //so - the ex returned does not have mode on it? and does not have a key (as in id not answer key!) as this was never in the url/part of the story on kea
             //do we add mode=withkey here so that in gapfill the right buttons are displayed? how come they are displayed right now? or in WP endpoint?
             request = {
-                method: "GET"
+                method: "GET",
+                headers: headers
             }
            
            
         }
-        else //will be gitbub and url will be query string
+        else // this is github case and seems to get it from custom endpoint on kea
         {
 
             
        
             const enc = new Base64();
-            let headers;
-            headers = new Headers(); //browser api?
-            headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
+           
+      
+            //headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
             
             //preflight does not send creds so need to fix server not to require creds for OPTIONS 
             //did this use an If - request check to only check for creds if not options
@@ -120,54 +167,75 @@ const ExerciseContainer = () => {
         console.log("url", DOMAIN, JSONPATH, url);
 
 
-        fetch(url, request).then(response => {
-            if (response.ok)
-            {
-                return response.json();
-            }
-            
-            throw new Error();
-            
-        })
-        .then(data =>  
+        if (getJson)
+        {
+            fetch(url, request).then(response => {
+                if (response.ok)
                 {
-                    console.log("data", data);
-                    
-                    if ( data.success )
-                    {  
-
-                        setExercise(data);
-                        setExerciseType(data.activity_type);
-                    }
-                    else
+                    return response.json();
+                }
+                
+                throw new Error();
+                
+            })
+            .then(data =>  
                     {
-                        throw new Error(data.message);//TODO message?
-                    }
-                    
-                }    
-        ).catch(function (error) {
-            setError(true);
-            setErrorMessage(error.message);
-        });
+                        console.log("data", data);
+                        
+                        if ( data.success )
+                        {  
+
+                            setExercise(data);
+                            setExerciseType(data.activity_type);
+                        }
+                        else
+                        {
+                            throw new Error(data.message);//TODO message?
+                        }
+                        
+                    }    
+            ).catch(function (error) {
+                setError(true);
+                setErrorMessage(error.message);
+            });
+        }   
 
 
-    }, []);
+    }, [getJson]);
 
- 
-
-    let activityComponent;
-    if (exerciseType == "gapfill")
+    let displayComponent;
+    if (error)
     {
-        activityComponent = <GapFillExercise  exKey={exKey} slug={slug} exercise={exercise} /> ;
+        displayComponent = <><Menu/><ErrorMessageDisplay message={errorMessage} /></>;
+    }
+    else if (getJson && exercise && exerciseType)
+    {
+        
+        if (exerciseType == "gapfill")
+        {
+            displayComponent = <><Menu/><GapFillExercise  exKey={exKey} slug={slug} exercise={exercise} /></> ;
+        }
+        else
+        {
+            displayComponent = <><Menu/><MultipleChoiceExercise  exKey={exKey} slug={slug} exercise={exercise} /> </>;
+        }
+
+       
+    }
+    else if (getJson)
+    {
+        displayComponent = <><Menu /><Loading /></>
     }
     else
     {
-        activityComponent = <MultipleChoiceExercise  exKey={exKey} slug={slug} exercise={exercise} /> 
+        displayComponent = <Menu />
     }
 
     return(
-            error ? <ErrorMessageDisplay message={errorMessage} /> :  (exercise && exerciseType) ? activityComponent : <Loading />
-        );
+        displayComponent
+        
+    );
+    
 
 
 }
