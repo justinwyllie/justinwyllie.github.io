@@ -51,8 +51,7 @@ const Menu = () => {
 
 const ExerciseContainer = () => {
 
-    const [getJson, setGetJson] = useState(false);
-   
+       
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [exercise, setExercise] = useState(undefined);
@@ -96,7 +95,6 @@ const ExerciseContainer = () => {
         {
             if (bits.length > 3)
             {
-                setGetJson(true);
                 setSlug(bits[1]);
                 setExKey(bits[3]);
                 //this is to the node app on repi? 2 is postId
@@ -167,48 +165,46 @@ const ExerciseContainer = () => {
         console.log("url", DOMAIN, JSONPATH, url);
 
 
-        if (getJson)
-        {
-            fetch(url, request).then(response => {
-                if (response.ok)
+      
+        fetch(url, request).then(response => {
+            if (response.ok)
+            {
+                return response.json();
+            }
+            
+            throw new Error();
+            
+        })
+        .then(data =>  
                 {
-                    return response.json();
-                }
-                
-                throw new Error();
-                
-            })
-            .then(data =>  
+                    console.log("data", data);
+                    
+                    if ( data.success )
+                    {  
+
+                        setExercise(data);
+                        setExerciseType(data.activity_type);
+                    }
+                    else
                     {
-                        console.log("data", data);
-                        
-                        if ( data.success )
-                        {  
-
-                            setExercise(data);
-                            setExerciseType(data.activity_type);
-                        }
-                        else
-                        {
-                            throw new Error(data.message);//TODO message?
-                        }
-                        
-                    }    
-            ).catch(function (error) {
-                setError(true);
-                setErrorMessage(error.message);
-            });
-        }   
+                        throw new Error(data.message);//TODO message?
+                    }
+                    
+                }    
+        ).catch(function (error) {
+            setError(true);
+            setErrorMessage(error.message);
+        });
 
 
-    }, [getJson]);
+    }, []);
 
     let displayComponent;
     if (error)
     {
         displayComponent = <><Menu/><ErrorMessageDisplay message={errorMessage} /></>;
     }
-    else if (getJson && exercise && exerciseType)
+    else if (exercise && exerciseType)
     {
         
         if (exerciseType == "gapfill")
@@ -222,14 +218,11 @@ const ExerciseContainer = () => {
 
        
     }
-    else if (getJson)
+    else
     {
         displayComponent = <><Menu /><Loading /></>
     }
-    else
-    {
-        displayComponent = <Menu />
-    }
+   
 
     return(
         displayComponent
