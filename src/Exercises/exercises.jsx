@@ -132,7 +132,7 @@ const ExerciseContainer = () => {
             const enc = new Base64();
            
       
-            //headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
+            headers.set('Authorization', 'Basic ' + enc.encode('dev' + ":" + 'hjgyt65$!H')); 
             
             //preflight does not send creds so need to fix server not to require creds for OPTIONS 
             //did this use an If - request check to only check for creds if not options
