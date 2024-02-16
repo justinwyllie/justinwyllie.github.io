@@ -138,7 +138,7 @@ const ExerciseContainer = () => {
             //did this use an If - request check to only check for creds if not options
         
             headers.set('Content-Type', 'application/json; charset=UTF-8');
-            //headers.set('X-Requested-With', 'XMLHttpRequest');
+            headers.set('X-Requested-With', 'XMLHttpRequest');
 
             console.log("headers", headers);
             request = {
