@@ -177,6 +177,7 @@ const GapFillExercise = (props) =>
                     {
                         //TODO confirm sent 
                         setConfirmMessage(data.message);
+                        document.body.scrollTop = document.documentElement.scrollTop = 0;
                     }
                     else
                     {

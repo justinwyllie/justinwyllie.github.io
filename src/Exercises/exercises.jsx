@@ -124,10 +124,10 @@ const ExerciseContainer = () => {
            
            
         }
-        else // this is github case and seems to get it from custom endpoint on kea
+        else // this is github case - we need to get from repi if we want to also do results checking on repi. 
         {
-
-            
+            //                                  slug postId key
+            //url = '//' + JSONPATH + '/json/' + bits[1] + "/" +  bits[2] + "/" + bits[3];
        
             const enc = new Base64();
            
@@ -138,7 +138,7 @@ const ExerciseContainer = () => {
             //did this use an If - request check to only check for creds if not options
         
             headers.set('Content-Type', 'application/json; charset=UTF-8');
-            //headers.set('X-Requested-With', 'XMLHttpRequest');
+            headers.set('X-Requested-With', 'XMLHttpRequest');
 
             console.log("headers", headers);
             request = {
@@ -151,15 +151,17 @@ const ExerciseContainer = () => {
             console.log("d1", query);
             const urlParams = new window.URLSearchParams(query);
             console.log("d2", urlParams);
-            const q = urlParams.get('q');
-            setSlug(q);
+            const slug = urlParams.get('q');
+            setSlug(slug);
             const key = urlParams.get('key');
             setExKey(key);
             const postId = urlParams.get('postId');
 
-          
+            
             setExKey(bits[3]);
-            url =  'https://' + JSONPATH + '/wp-json/kea_activities/v1/json_post/' + postId + "/" +  key;
+            //url =  'https://' + JSONPATH + '/wp-json/kea_activities/v1/json_post/' + postId + "/" +  key;
+            url = '//' + JSONPATH + '/json/' + slug + "/" +  postId + "/" + key;
+            console.log("get json from", url);
         }
 
         console.log("url", DOMAIN, JSONPATH, url);

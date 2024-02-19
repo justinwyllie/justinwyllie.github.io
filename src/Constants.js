@@ -1,5 +1,5 @@
 const DOMAIN = "justinwyllie.github.io";
-const JSONPATH = "dev.kazanenglishacademy.com";
+const JSONPATH = "onlinerepititor.ru";
 const RESULTSPATH = "onlinerepititor.ru";
 const MODE = "dev";
 const SHOWLOGIN = false;

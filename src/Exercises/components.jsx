@@ -202,7 +202,7 @@ const Instructions = (props) =>
                     {CapitalizeFirstLetter(LABELS[userLang]['models']['nominative'])}
                 
                 </h4>
-s
+
                 {showModels 
                     ? <Dash  size={36} className="pointer symbols mt-n2" onClick={() => setShowModels(false)}/>
                     : <Plus  size={36} className="pointer symbols mt-n2" onClick={() => setShowModels(true)} />
