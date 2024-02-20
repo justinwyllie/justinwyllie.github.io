@@ -41,10 +41,7 @@
             c.width = 800;
             c.height = 600;
             ctx = c.getContext("2d");
-            ctx.beginPath();
-            ctx.arc(100, 75, 50, 0, 2 * Math.PI);
-            ctx.fillStyle = "orange";
-            ctx.fill();
+            
 
 
         }
@@ -64,39 +61,20 @@
                 //clear the canvas
                 ctx.clearRect( 0, 0 , 800, 600 );
 
-                //why 800? what does this control?
-                //stupid hack for rock because rock image is bigger than rock
-                var xEdge;
-                if (el == "circle")
-                {
-                    xRight = 800;
-                    xLeft = 0;
-                }
-                else
-                {
-                    xRight = 760;
-                    xLeft = -40;     
-                }
+               
+                          
+                var xRight = 760;
+                var xLeft = -40;     
+                
                 if( x + radius > xRight || x - radius < xLeft  ) {
-
                     dx = -dx;
                 }
 
-                //why 600? what does this control?
-                //stupid hack for rock because rock image is bigger than rock
-                var yEdge;
-                if (el == "circle")
-                {
-                    yBottom = 600;
-                    yTop = 0;
-                }
-                else
-                {
-                    yBottom = 570;
-                    yTop = -40;     
-                }
+     
+                var yBottom = 570;
+                var yTop = -40;     
+                
                 if(  y + radius > yBottom || y - radius < yTop ) {
-
                     dy = -dy;
                 }
 
@@ -104,20 +82,10 @@
                             //to the x cooridinate
                 y += dy;
 
-                //this draws a simple circle
-                if (el == "circle")
-                {
-                    ctx.beginPath();
-                    ctx.arc( x, y,  50, 0, Math.PI * 2, false  );
-                    ctx.stroke();
-                }
-                else if (el == "spacerock")
-                {
-                    ctx.drawImage(img, x, y);
-                }
-                
-               //but let's have a space rock - see below
+               
+                ctx.drawImage(img, x, y);
 
+       
             }
 
 
@@ -126,27 +94,25 @@
             var radius = 50;
 
             // Starting Position
+            
             var x 	= radius + Math.random() * ( 800 - (radius * 2) ); //up to width of canvas
             var y 	= radius + Math.random() * ( 600 - (radius * 2) ); //up to height
+
+            
 
             // Speed in x and y direction - actuallly movement distance per cycle
             var dx 	= (Math.random() - 0.5) * 2;
             var dy 	= (Math.random() - 0.5) * 2;
             //now call the animation function which uses these variables (in scope)
 
-            if (el == "circle")
-            {
+      
+            var img = new Image; //scope this will be availble in animateOneObject
+            img.src = 'spacerock.png';
+            //this runs the code after the image has loaded (it takes time)
+            img.addEventListener('load', function () {
                 animateOneObject(el);
-            }
-            else if (el == "spacerock") //we need to load the image and then call the animation
-            {
-                var img = new Image; //scope this will be availble in animateOneObject
-                img.src = 'spacerock.png';
-                //this runs the code after the image has loaded (it takes time)
-                img.addEventListener('load', function () {
-                    animateOneObject(el);
-                });
-            }
+            });
+            
             
             
     }
@@ -161,7 +127,7 @@
 <body>
     <canvas id="myCanvas" width="900" height="450" style="border:1px solid grey"></canvas>
     <div>
-        <button onClick="play('circle')">Play - circle</button>
+      
         <button onClick="play('spacerock')">Play - spacerock</button>
     </div>
     
