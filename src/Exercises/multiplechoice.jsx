@@ -8,7 +8,6 @@ import { shuffle } from "underscore";
 
 
 import { Instructions, MultipleChoiceQuestion, Buttons, ErrorMessageDisplay, ConfirmMessageDisplay} from './components';
-import { StopHacking } from './shared-components';
 import { Login } from '../Account/Login';
 import Form from 'react-bootstrap/Form';
 //import { useRef } from 'react';   
@@ -26,9 +25,7 @@ const MultipleChoiceExercise = (props) =>
     const [checkButtonActive, setCheckButtonActive] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [confirmMessage, setConfirmMessage] = useState(undefined);
-    const [userName, setUserName] = useState('');
-    const [userEmail, setUserEmail] = useState('');
-    const [hacker, setHacker] = useState(false);
+    const [displayAccountInfo, setDisplayAccountInfo] = useState({name: '', email: ''}); //TODO a template ?
    
     const userLang = 'en';
     const loc = window.location;
@@ -38,17 +35,6 @@ const MultipleChoiceExercise = (props) =>
    
     //const [exercise, setExercise] = useState(props.exercise ? props.exercise : undefined);
     
-
-    useEffect(() => {
-        
-        if (SHOWLOGIN)
-        {
-            Login(setUserName, setUserEmail);
-        }
-        
-        
-    }, []);   
-
 
 
 
@@ -145,8 +131,8 @@ const MultipleChoiceExercise = (props) =>
        
         results.answers = {"questionsAndStudentAnswers" : questionsAndStudentAnswers};
         results.slug = props.slug;
-        results.name = userName;
-        results.email = userEmail;
+        results.name = displayAccountInfo.name;
+        results.email = displayAccountInfo.email;
         results.post_id = props.exercise.post_id;
         results.title = props.exercise.title;
         results.ex_key = props.exKey;
@@ -190,9 +176,8 @@ const MultipleChoiceExercise = (props) =>
 
     const check = () =>
     {
-        if (userName == "")
+        if (SHOWLOGIN && (displayAccountInfo.name == ''))
         {
-            setFieldState("is-invalid");
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             return;
         }
@@ -335,25 +320,7 @@ const MultipleChoiceExercise = (props) =>
         }
     }
 
-    const setUserNameWrapper = (name) =>
-    {
 
-        if (name.length > 30)
-        {
-            setHacker(true);
-            name = name.substr(0, 30);
-        }
-        else
-        {
-            setHacker(false);
-        }
-
-        if (name != '')
-        {
-            setFieldState("is-valid");
-        }
-        setUserName(name);
-    }
 
     const handleChange = (e, questionNumber, fieldNumber) =>
     {
@@ -406,11 +373,7 @@ const MultipleChoiceExercise = (props) =>
         mode={exercise.mode}
         submitAnswers={submitAnswers}></Buttons>;
 
-    let message = '';
-    if (hacker)
-    {
-        message = <StopHacking />
-    }
+  
     let confirmMessageDisplay = '';
     if (confirmMessage != undefined)
     {
@@ -425,19 +388,11 @@ const MultipleChoiceExercise = (props) =>
         : <div >
             <h1 className="text-center">{exercise ?  exercise.title : ''}</h1>
 
-             {message}  
-             {confirmMessageDisplay} 
+         
+            {confirmMessageDisplay} 
+
+            {SHOWLOGIN ? <Login setDisplayAccountInfo={setDisplayAccountInfo} /> : null}
              
-            
-            <div className="mt-3 mb-3 input-group has-validation">
-            <label htmlFor="userName" className="form-label me-2">Name  </label> 
-            <input id="userName" maxLength="30"  className={fieldState} value={userName} onChange={(e) =>
-                       setUserNameWrapper(e.currentTarget.value)}   />
-                <div className="invalid-feedback">
-                    Please enter your name
-                </div>
-            </div>
-            
 
             <div >
                 <div>

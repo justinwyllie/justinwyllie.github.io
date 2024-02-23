@@ -5,12 +5,7 @@ const Loading = () =>
     return(<div>loading...</div>)
 }
 
-const StopHacking = () =>
-{
-    return (<div class="alert alert-danger" role="alert">
-        Stop hacking my site!
-  </div>)
-}
+
 
 
 const CapitalizeFirstLetter = (string) => {
@@ -22,6 +17,5 @@ const CapitalizeFirstLetter = (string) => {
 export 
 {
     Loading,
-    StopHacking,
     CapitalizeFirstLetter
 }
