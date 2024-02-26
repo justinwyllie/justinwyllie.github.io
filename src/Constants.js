@@ -2,7 +2,7 @@ const DOMAIN = "justinwyllie.github.io";
 const JSONPATH = "onlinerepititor.ru";
 const RESULTSPATH = "onlinerepititor.ru";
 const MODE = "dev";
-const SHOWLOGIN = false;
+const SHOWLOGIN = true;
 const DIRECT = "bc";
 const LABELS = {
         ru: 
