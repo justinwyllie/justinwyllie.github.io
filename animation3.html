@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Canvas</title>
+
+    <style>
+
+        body
+        {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        #controls
+        {
+            background-color: #eeeeee;
+            border: 1px solid #000000;
+            width: 200px;
+        }
+
+        #canvas
+        {
+            /* width: 800px;
+            height: 600px;
+            */
+            border: 1px solid #000000;
+            
+        }
+
+    </style>
+
+    <script>
+
+        //https://javascript.tutorials24x7.com/blog/how-to-draw-animated-circles-in-html5-canvas
+
+        //canvas dimensions
+        var xRight = 800;
+        var xLeft = 0;
+        var yBottom = 600;
+        var yTop = 0;  
+        
+        let ctx;
+        function init()
+        {
+            const c = document.getElementById("myCanvas");
+            c.width = xRight;
+            c.height = yBottom;
+            ctx = c.getContext("2d");
+        }
+
+        window.onload = function() {
+            init();
+        }
+
+        
+        function play()
+        {
+
+            var rocks;
+            function animate()
+            {
+             
+                console.log("animate");
+                
+                //call this function recursively and run this code
+                //this will be run on every screen cycle
+                
+                
+                //clear the canvas
+                ctx.clearRect( 0, 0 , 800, 600 );
+
+                var numberOfImages = rocks.length;
+
+                //do this for each image object
+                for (i = 0; i < numberOfImages; i++)
+                {
+                    //flip direction on X edge
+                    if( rocks[i].x + rocks[i].radius > xRight || rocks[i].x - rocks[i].radius < xLeft  ) {
+                        rocks[i].moveX = -rocks[i].moveX;
+                        rocks[i].bounceCount += rocks[i].bounceFactor;
+                    }
+
+                    //flip direction on Y edge
+                    if( rocks[i].y + rocks[i].radius > yBottom || rocks[i].y - rocks[i].radius < yTop  ) {
+                        rocks[i].moveY = -rocks[i].moveY;
+                        rocks[i].bounceCount += rocks[i].bounceFactor;
+                    }
+
+                    //set new position and this gets bigger as bounceCount gets bigger
+                    //bigger move = more speed
+                    rocks[i].x += rocks[i].moveX  * rocks[i].bounceCount; 
+                    rocks[i].y += rocks[i].moveY  * rocks[i].bounceCount; 
+                    
+                    ctx.drawImage(rocks[i].image,  rocks[i].x, rocks[i].y);
+                }
+                requestAnimationFrame( animate );
+            } //end recursive animation function
+
+
+            //this runs the code after the page has loaded - but not images!
+            function init() {
+
+                var loaded = 0;
+                function canWeStart()
+                {
+                    if (loaded >= 1)
+                    {
+                        animate();
+                    }
+                }
+
+                var img1 = new Image; 
+                img1.src = 'spacerock.png';
+                var img2 = new Image; 
+                img2.src = 'spacerock.png';
+
+                imgObj1 = {
+                    image: img1,
+                    x: Math.random() * ( xRight ),
+                    y: Math.random() * ( yBottom ),
+                    bounceFactor: 0.3,
+                    bounceCount: 1,
+                    radius: 50,
+                    moveX: (Math.random() - 0.5) * 4,
+                    moveY: (Math.random() - 0.5) * 4
+                };
+
+                imgObj2 = {
+                    image: img2,
+                    x: Math.random() * ( xRight ),
+                    y: Math.random() * ( yBottom ),
+                    bounceFactor: 0.3,
+                    bounceCount: 1,
+                    radius: 50,
+                    moveX: (Math.random() - 0.5) * 4,
+                    moveY: (Math.random() - 0.5) * 4
+                };
+                //TODO check images loaded
+                rocks = [imgObj1, imgObj2];
+                var loaded = 0;
+                img1.addEventListener('load', function () {
+                    loaded++;
+                    canWeStart();
+                });
+                img2.addEventListener('load', function () {
+                    loaded++;
+                    canWeStart();
+                });
+                
+                
+            };
+
+            init();           
+            
+            
+    }
+
+        
+
+
+    </script>
+
+
+</head>
+<body>
+    <canvas id="myCanvas" !width="900" !height="450" style="border:1px solid grey"></canvas>
+    <div>
+      
+        <button onClick="play()">Play - spacerock</button>
+    </div>
+    
+</body>
+</html>

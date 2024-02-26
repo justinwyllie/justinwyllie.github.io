@@ -52,22 +52,23 @@
 
         function play(el)
         {
+            var bounceCount = 1;
             function animateOneObject(secs)
             {
-                console.log(secs);
+                //console.log(secs);
                 //call this function recursively and run this code
                 //this will be run on every screen cycle
                 requestAnimationFrame( animateOneObject );
                 //clear the canvas
                 ctx.clearRect( 0, 0 , 800, 600 );
 
-               
-                          
+                        
                 var xRight = 760;
                 var xLeft = -40;     
                 
                 if( x + radius > xRight || x - radius < xLeft  ) {
                     dx = -dx;
+                    bounceCount += 0.3;
                 }
 
      
@@ -76,19 +77,19 @@
                 
                 if(  y + radius > yBottom || y - radius < yTop ) {
                     dy = -dy;
+                    bounceCount += 0.3;
                 }
+                console.log("bounceCount", bounceCount);
+                x += dx*bounceCount; //we are adding the movement distance  - the larger the faster
+                y += dy*bounceCount;
 
-                x += dx; //this is the same as saying x = x + dx i.e. we are adding the movement distance 
-                            //to the x cooridinate
-                y += dy;
-
-               
                 ctx.drawImage(img, x, y);
 
        
-            }
+            } //end recursive animation function
 
 
+            //INIT outside of recursive function
             //set up starting values for our circle
             // Radius
             var radius = 50;
@@ -98,13 +99,11 @@
             var x 	= radius + Math.random() * ( 800 - (radius * 2) ); //up to width of canvas
             var y 	= radius + Math.random() * ( 600 - (radius * 2) ); //up to height
 
-            
-
             // Speed in x and y direction - actuallly movement distance per cycle
-            var dx 	= (Math.random() - 0.5) * 2;
-            var dy 	= (Math.random() - 0.5) * 2;
+            var dx 	= (Math.random() - 0.5) * 4; //from -2 to 2?
+            var dy 	= (Math.random() - 0.5) * 4;
+            console.log("dy", dy);
             //now call the animation function which uses these variables (in scope)
-
       
             var img = new Image; //scope this will be availble in animateOneObject
             img.src = 'spacerock.png';
@@ -125,7 +124,7 @@
 
 </head>
 <body>
-    <canvas id="myCanvas" width="900" height="450" style="border:1px solid grey"></canvas>
+    <canvas id="myCanvas" !width="900" !height="450" style="border:1px solid grey"></canvas>
     <div>
       
         <button onClick="play('spacerock')">Play - spacerock</button>
