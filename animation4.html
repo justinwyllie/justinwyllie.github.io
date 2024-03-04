@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Canvas</title>
+
+    <style>
+
+        body
+        {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        #controls
+        {
+            background-color: #eeeeee;
+            border: 1px solid #000000;
+            width: 200px;
+        }
+
+        #canvas
+        {
+            /* width: 800px;
+            height: 600px;
+            */
+            border: 1px solid #000000;
+            
+        }
+
+    </style>
+
+    <script>
+
+        //https://javascript.tutorials24x7.com/blog/how-to-draw-animated-circles-in-html5-canvas
+
+        var ctx;
+        var spaceship = new Image; 
+        var spaceship_x = 350;
+        var spaceship_y = 500;
+        function init()
+        {
+            const c = document.getElementById("myCanvas");
+            c.width = 800;
+            c.height = 600;
+            ctx = c.getContext("2d");
+
+            //draw spaceship
+            spaceship.src = 'spaceship_small.png';
+            //this runs the code after the image has loaded (it takes time)
+            spaceship.addEventListener('load', function () {
+                ctx.drawImage(spaceship, spaceship_x, spaceship_y);
+                
+            });
+
+            //capture keyboard events
+            window.addEventListener("keydown", (event) => {
+                ctx.clearRect( 0, 0 , 800, 600 );
+                var action = event.key;
+                console.log("action", action);
+                if (action == "r")
+                {
+                    //ctx.save(); // save4 , 800, 600 );
+                    var centreX = spaceship_x+25;
+                    var centreY = spaceship_y+50;
+                    ctx.translate(centreX,centreY); //set centre point for rotation to where rocket is now
+                    ctx.rotate(Math.PI/8); // rotate
+                    ctx.translate(-centreX, -centreY); //reset centre point
+                    ctx.drawImage(spaceship, spaceship_x, spaceship_y);
+                    //ctx.restore(); // restore original states (no rotation etc)
+                }
+                if (action == "l")
+                {
+                    //ctx.save(); // save4 , 800, 600 );
+                    var centreX = spaceship_x+25;
+                    var centreY = spaceship_y+50;
+                    ctx.translate(centreX,centreY); //set centre point for rotation to where rocket is now
+                    ctx.rotate(-(Math.PI/8)); // rotate
+                    ctx.translate(-centreX, -centreY); //reset centre point
+                    ctx.drawImage(spaceship, spaceship_x, spaceship_y);
+                    //ctx.restore(); // restore original states (no rotation etc)
+                }
+                else //lets capture the arrow key events
+                {
+                    if (action == "ArrowUp")
+                    {
+                        spaceship_y = spaceship_y - 10;
+                    }
+                    else if (action == "ArrowRight")
+                    {
+                        spaceship_x = spaceship_x + 10;
+                    }
+                    else if (action == "ArrowDown")
+                    {
+                        spaceship_y = spaceship_y + 10;
+                    }
+                    else if (action == "ArrowLeft")
+                    {
+                        spaceship_x = spaceship_x - 10;
+                    }
+
+                    
+                    ctx.drawImage(spaceship, spaceship_x, spaceship_y);
+                }
+                    
+                
+                
+                
+
+            });
+
+                
+
+            
+
+
+        }
+
+        window.onload = function() {
+            init();
+        }
+
+        function startGame()
+        {
+
+
+        }
+
+       
+
+        
+
+
+    </script>
+
+
+</head>
+<body>
+    <canvas id="myCanvas" !width="900" !height="450" style="border:1px solid grey"></canvas>
+    <div>
+        <h3>Instructions</h3>
+        Use the arrow keys to move your spaceship. Hit the rock.
+       
+    </div>
+    
+</body>
+</html>
