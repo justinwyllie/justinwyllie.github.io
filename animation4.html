@@ -55,12 +55,14 @@
 
             //capture keyboard events
             window.addEventListener("keydown", (event) => {
-                ctx.clearRect( 0, 0 , 800, 600 );
+                
+                
                 var action = event.key;
                 console.log("action", action);
                 if (action == "r")
                 {
                     //ctx.save(); // save4 , 800, 600 );
+                    ctx.clearRect( 0, 0 , 800, 600 );
                     var centreX = spaceship_x+25;
                     var centreY = spaceship_y+50;
                     ctx.translate(centreX,centreY); //set centre point for rotation to where rocket is now
@@ -72,6 +74,7 @@
                 if (action == "l")
                 {
                     //ctx.save(); // save4 , 800, 600 );
+                    ctx.clearRect( 0, 0 , 800, 600 );
                     var centreX = spaceship_x+25;
                     var centreY = spaceship_y+50;
                     ctx.translate(centreX,centreY); //set centre point for rotation to where rocket is now
@@ -99,7 +102,7 @@
                         spaceship_x = spaceship_x - 10;
                     }
 
-                    
+                    ctx.clearRect( 0, 0 , 800, 600 );
                     ctx.drawImage(spaceship, spaceship_x, spaceship_y);
                 }
                     
