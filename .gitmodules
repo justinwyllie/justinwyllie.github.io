@@ -1,6 +1,0 @@
-[submodule "src/Exercises"]
-	path = src/Exercises
-	url = https://github.com/justinwyllie/Exercises
-[submodule "src/Account"]
-	path = src/Account
-	url = https://github.com/justinwyllie/Account
