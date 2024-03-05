@@ -35,86 +35,92 @@
         //https://javascript.tutorials24x7.com/blog/how-to-draw-animated-circles-in-html5-canvas
 
         let ctx;
+        var keyMapper = {
+            ArrowUp: false,
+            ArrowDown: false,
+            ArrowLeft: false,
+            ArrowRight: false,
+            r: false,
+            l: false
+        };
+        var spaceship_x = 350;
+        var spaceship_y = 500;
+        var spaceship = new Image;
+
         function init()
         {
             const c = document.getElementById("myCanvas");
-            c.width = 800;
-            c.height = 600;
             ctx = c.getContext("2d");
+
+            spaceship.src = 'spaceship_small.png';
+            //this runs the code after the image has loaded (it takes time)
+            spaceship.addEventListener('load', function () {
+                ctx.drawImage(spaceship, spaceship_x, spaceship_y);
+                
+            });
+
+            window.addEventListener("keydown", (event) => {
+                var action = event.key;
+                keyMapper[action] = true;
+                console.log("down keyMapper", keyMapper);
+            });
+
+            window.addEventListener("keyup", (event) => {
+                var action = event.key;
+                keyMapper[action] = false;
+                console.log("up keyMapper", keyMapper);
+            });
             
 
-
+            play();
         }
 
         window.onload = function() {
             init();
         }
 
-        function play(el)
+        function play()
         {
-            var bounceCount = 1;
-            function animateOneObject(secs)
+
+            requestAnimationFrame(play);
+            
+            if (keyMapper['ArrowUp'])
             {
-                //console.log(secs);
-                //call this function recursively and run this code
-                //this will be run on every screen cycle
-                requestAnimationFrame( animateOneObject );
-                //clear the canvas
-                ctx.clearRect( 0, 0 , 800, 600 );
-
+                spaceship_y = spaceship_y - 1;
+            }
+            if (keyMapper['ArrowDown'])
+            {
+                spaceship_y = spaceship_y + 1;
+            }
+            if (keyMapper['ArrowLeft'])
+            {
+                spaceship_x = spaceship_x - 1;
+            }
+            if (keyMapper['ArrowRight'])
+            {
+                spaceship_x = spaceship_x + 1;
+            }
+            if (keyMapper['r'])
+            {
+                
+                ctx.translate(spaceship_x, spaceship_y); //set centre point for rotation to where rocket is now
+                ctx.rotate(1 * Math.PI / 180); // rotate
+                ctx.translate(-spaceship_x, -spaceship_y); //reset centre point
                         
-                var xRight = 760;
-                var xLeft = -40;     
-                
-                if( x + radius > xRight || x - radius < xLeft  ) {
-                    dx = -dx;
-                    bounceCount += 0.3;
-                }
+            }
+            if (keyMapper['l'])
+            {
+                ctx.translate(spaceship_x, spaceship_y); //set centre point for rotation to where rocket is now
+                ctx.rotate(-1 * Math.PI / 180); // rotate
+                ctx.translate(-spaceship_x, -spaceship_y); //reset centre point
+            }
 
-     
-                var yBottom = 570;
-                var yTop = -40;     
-                
-                if(  y + radius > yBottom || y - radius < yTop ) {
-                    dy = -dy;
-                    bounceCount += 0.3;
-                }
-                console.log("bounceCount", bounceCount);
-                x += dx*bounceCount; //we are adding the movement distance  - the larger the faster
-                y += dy*bounceCount;
-
-                ctx.drawImage(img, x, y);
-
-       
-            } //end recursive animation function
-
-
-            //INIT outside of recursive function
-            //set up starting values for our circle
-            // Radius
-            var radius = 50;
-
-            // Starting Position
-            
-            var x 	= radius + Math.random() * ( 800 - (radius * 2) ); //up to width of canvas
-            var y 	= radius + Math.random() * ( 600 - (radius * 2) ); //up to height
-
-            // Speed in x and y direction - actuallly movement distance per cycle
-            var dx 	= (Math.random() - 0.5) * 4; //from -2 to 2?
-            var dy 	= (Math.random() - 0.5) * 4;
-            console.log("dy", dy);
-            //now call the animation function which uses these variables (in scope)
-      
-            var img = new Image; //scope this will be availble in animateOneObject
-            img.src = 'spacerock.png';
-            //this runs the code after the image has loaded (it takes time)
-            img.addEventListener('load', function () {
-                animateOneObject(el);
-            });
+            ctx.clearRect(0, 0, 2000, 2000);
+            ctx.drawImage(spaceship, spaceship_x, spaceship_y);
             
             
             
-    }
+        }
 
         
 
@@ -124,10 +130,11 @@
 
 </head>
 <body>
-    <canvas id="myCanvas" !width="900" !height="450" style="border:1px solid grey"></canvas>
+    <canvas id="myCanvas" width="800" height="600" style="border:1px solid grey"></canvas>
     <div>
-      
-        <button onClick="play('spacerock')">Play - spacerock</button>
+        <h3>Instructions</h3>
+        Use the arrow keys to move your spaceship. Hit the rock.
+       
     </div>
     
 </body>

@@ -41,6 +41,16 @@
         var centreX = 0;
         var centreY = 0;
         var keypress = true;
+
+        function getRotation(ctx) {
+            const mat = ctx.getTransform();
+            const rad = Math.atan2(mat.b, mat.a);
+            if (rad < 0) { // angle is > Math.PI
+                return rad + Math.PI * 2;
+            }
+            return rad;
+        }
+
         function init()
         {
             const c = document.getElementById("myCanvas");
@@ -69,16 +79,18 @@
                     console.log("action", action);
                     if (action == "r")
                     {
-                        //ctx.save(); // save4 , 800, 600 );
+                       // ctx.save(); // save4 , 800, 600 );
                         
                         centreX = spaceship_x;
                         centreY = spaceship_y;
                         
                         ctx.translate(centreX,centreY); //set centre point for rotation to where rocket is now
                         ctx.rotate(Math.PI/8); // rotate
-                        
+                       
                         ctx.translate(-centreX, -centreY); //reset centre point
-                        ctx.clearRect(0, 0, c.width, c.height);
+                        
+                        //ctx.clearRect(0, 0, c.width, c.height);
+                        ctx.clearRect(0, 0, 5000, 5000);
                         ctx.drawImage(spaceship, spaceship_x, spaceship_y);
                         //ctx.restore(); // restore original states (no rotation etc)
                     }
@@ -94,7 +106,7 @@
                        
                         ctx.translate(-centreX, -centreY); //reset centre point
                         
-                        ctx.clearRect(0, 0, c.width, c.height);
+                        ctx.clearRect(0, 0, 5000, 5000);
                         ctx.drawImage(spaceship, spaceship_x, spaceship_y);
                         //ctx.restore(); // restore original states (no rotation etc)
                     }
@@ -117,7 +129,7 @@
                             spaceship_x = spaceship_x - 50;
                         }
 
-                        ctx.clearRect(centreX, centreY, c.width, c.height);
+                        ctx.clearRect(0, 0, 5000, 5000);
                         ctx.drawImage(spaceship, spaceship_x, spaceship_y);
                     }
                     keypress = false;   
