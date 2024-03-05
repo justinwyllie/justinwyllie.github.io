@@ -38,6 +38,9 @@
         var spaceship = new Image; 
         var spaceship_x = 350;
         var spaceship_y = 500;
+        var centreX = 0;
+        var centreY = 0;
+        var keypress = true;
         function init()
         {
             const c = document.getElementById("myCanvas");
@@ -53,60 +56,73 @@
                 
             });
 
+            window.addEventListener("keyup", (event) => {
+                keypress = true;
+            });
+
             //capture keyboard events
             window.addEventListener("keydown", (event) => {
+                if (keypress == true)
+                {
                 
-                
-                var action = event.key;
-                console.log("action", action);
-                if (action == "r")
-                {
-                    //ctx.save(); // save4 , 800, 600 );
-                    ctx.clearRect( 0, 0 , 800, 600 );
-                    var centreX = spaceship_x+25;
-                    var centreY = spaceship_y+50;
-                    ctx.translate(centreX,centreY); //set centre point for rotation to where rocket is now
-                    ctx.rotate(Math.PI/8); // rotate
-                    ctx.translate(-centreX, -centreY); //reset centre point
-                    ctx.drawImage(spaceship, spaceship_x, spaceship_y);
-                    //ctx.restore(); // restore original states (no rotation etc)
-                }
-                if (action == "l")
-                {
-                    //ctx.save(); // save4 , 800, 600 );
-                    ctx.clearRect( 0, 0 , 800, 600 );
-                    var centreX = spaceship_x+25;
-                    var centreY = spaceship_y+50;
-                    ctx.translate(centreX,centreY); //set centre point for rotation to where rocket is now
-                    ctx.rotate(-(Math.PI/8)); // rotate
-                    ctx.translate(-centreX, -centreY); //reset centre point
-                    ctx.drawImage(spaceship, spaceship_x, spaceship_y);
-                    //ctx.restore(); // restore original states (no rotation etc)
-                }
-                else //lets capture the arrow key events
-                {
-                    if (action == "ArrowUp")
+                    var action = event.key;
+                    console.log("action", action);
+                    if (action == "r")
                     {
-                        spaceship_y = spaceship_y - 10;
+                        //ctx.save(); // save4 , 800, 600 );
+                        
+                        centreX = spaceship_x;
+                        centreY = spaceship_y;
+                        
+                        ctx.translate(centreX,centreY); //set centre point for rotation to where rocket is now
+                        ctx.rotate(Math.PI/8); // rotate
+                        
+                        ctx.translate(-centreX, -centreY); //reset centre point
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        ctx.drawImage(spaceship, spaceship_x, spaceship_y);
+                        //ctx.restore(); // restore original states (no rotation etc)
                     }
-                    else if (action == "ArrowRight")
+                    if (action == "l")
                     {
-                        spaceship_x = spaceship_x + 10;
+                        //ctx.save(); // save4 , 800, 600 );
+                        
+                        centreX = spaceship_x;
+                        centreY = spaceship_y;
+                        
+                        ctx.translate(centreX,centreY); //set centre point for rotation to where rocket is now
+                        ctx.rotate(-(Math.PI/8)); // rotate
+                       
+                        ctx.translate(-centreX, -centreY); //reset centre point
+                        
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        ctx.drawImage(spaceship, spaceship_x, spaceship_y);
+                        //ctx.restore(); // restore original states (no rotation etc)
                     }
-                    else if (action == "ArrowDown")
+                    else //lets capture the arrow key events
                     {
-                        spaceship_y = spaceship_y + 10;
-                    }
-                    else if (action == "ArrowLeft")
-                    {
-                        spaceship_x = spaceship_x - 10;
-                    }
+                        if (action == "ArrowUp")
+                        {
+                            spaceship_y = spaceship_y - 50;
+                        }
+                        else if (action == "ArrowRight")
+                        {
+                            spaceship_x = spaceship_x + 50;
+                        }
+                        else if (action == "ArrowDown")
+                        {
+                            spaceship_y = spaceship_y + 50;
+                        }
+                        else if (action == "ArrowLeft")
+                        {
+                            spaceship_x = spaceship_x - 50;
+                        }
 
-                    ctx.clearRect( 0, 0 , 800, 600 );
-                    ctx.drawImage(spaceship, spaceship_x, spaceship_y);
-                }
+                        ctx.clearRect(centreX, centreY, c.width, c.height);
+                        ctx.drawImage(spaceship, spaceship_x, spaceship_y);
+                    }
+                    keypress = false;   
                     
-                
+                }
                 
                 
 
