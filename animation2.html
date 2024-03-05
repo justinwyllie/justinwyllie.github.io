@@ -32,7 +32,13 @@
 
     <script>
 
-        //https://javascript.tutorials24x7.com/blog/how-to-draw-animated-circles-in-html5-canvas
+
+
+// Update header text
+//document.querySelector('#header').innerHTML = message
+
+// Log to console
+
 
         let ctx;
         var keyMapper = {
@@ -46,13 +52,14 @@
         var spaceship_x = 350;
         var spaceship_y = 500;
         var spaceship = new Image;
+        var c;
 
         function init()
         {
-            const c = document.getElementById("myCanvas");
+            c = document.getElementById("myCanvas");
             ctx = c.getContext("2d");
 
-            spaceship.src = 'spaceship_small.png';
+            spaceship.src = 'https://f.playcode.io/p-1788010/v-1/305ba65b-c00b-405f-8f0f-6b570bd119b5/spaceship-small.png';
             //this runs the code after the image has loaded (it takes time)
             spaceship.addEventListener('load', function () {
                 ctx.drawImage(spaceship, spaceship_x, spaceship_y);
@@ -77,6 +84,17 @@
 
         window.onload = function() {
             init();
+        }
+        //https://copyprogramming.com/howto/clearrect-function-doesn-t-clear-the-canvas
+        function clear()
+        {
+            // Store the current transformation matrix
+            ctx.save();
+            // Use the identity matrix while clearing the canvas
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.clearRect(0, 0, c.width, c.height);
+            // Restore the transform
+            ctx.restore();
         }
 
         function play()
@@ -115,15 +133,13 @@
                 ctx.translate(-spaceship_x, -spaceship_y); //reset centre point
             }
 
-            ctx.clearRect(0, 0, 2000, 2000);
+            //ctx.clearRect(0, 0, 2000, 2000);
+            clear();
             ctx.drawImage(spaceship, spaceship_x, spaceship_y);
             
             
             
         }
-
-        
-
 
     </script>
 
