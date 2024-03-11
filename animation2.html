@@ -28,13 +28,25 @@
             
         }
 
+        .stage
+        {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+        }
+
     </style>
 
     <script>
 
-        //https://javascript.tutorials24x7.com/blog/how-to-draw-animated-circles-in-html5-canvas
+         
 
-        let ctx;
+        var rockImage = new Image;
+        var rock_x = 100;
+        var rock_y = 100;
+        var rock_move_x = (Math.random() - 0.5) * 5;
+        var rock_move_y = (Math.random() - 0.5) * 5;
+        let ctx, ctx2;
         var keyMapper = {
             ArrowUp: false,
             ArrowDown: false,
@@ -51,6 +63,8 @@
         {
             const c = document.getElementById("myCanvas");
             ctx = c.getContext("2d");
+            const c2 = document.getElementById("myCanvas2");
+            ctx2 = c2.getContext("2d");
 
             spaceship.src = 'spaceship_small.png';
             //this runs the code after the image has loaded (it takes time)
@@ -62,21 +76,51 @@
             window.addEventListener("keydown", (event) => {
                 var action = event.key;
                 keyMapper[action] = true;
-                console.log("down keyMapper", keyMapper);
+                //console.log("down keyMapper", keyMapper);
             });
 
             window.addEventListener("keyup", (event) => {
                 var action = event.key;
                 keyMapper[action] = false;
-                console.log("up keyMapper", keyMapper);
+                //console.log("up keyMapper", keyMapper);
             });
             
 
             play();
+
+            
+            rockImage.src = 'spacerock.png';
+                
+                rockImage.addEventListener('load', function () {
+                    rock();
+                });
         }
 
         window.onload = function() {
             init();
+        }
+
+        function rock()
+        {
+
+            ctx2.clearRect( 0, 0 , 800, 600 );
+
+            if ( rock_x > 700 || rock_x < 0  ) 
+            {
+                rock_move_x = -rock_move_x;
+            }
+
+            if ( rock_y > 500 || rock_y < 0  ) 
+            {
+                rock_move_y = -rock_move_y;
+            }
+
+            rock_x += rock_move_x;  
+                            
+            rock_y += rock_move_y;
+            console.log("draw rock", rock_x, rock_y);
+            ctx2.drawImage(rockImage, rock_x, rock_y);
+            requestAnimationFrame(rock);
         }
 
         function play()
@@ -130,12 +174,11 @@
 
 </head>
 <body>
-    <canvas id="myCanvas" width="800" height="600" style="border:1px solid grey"></canvas>
-    <div>
-        <h3>Instructions</h3>
-        Use the arrow keys to move your spaceship. Hit the rock.
-       
-    </div>
+    <canvas class="stage" id="myCanvas" style="z-index: 100;" width="800" height="600" style="border:1px solid grey"></canvas>
+    <canvas class="stage" id="myCanvas2" style="z-index: 10;" width="800" height="600" style="border:1px solid grey"></canvas>
+    
+    
+    
     
 </body>
 </html>
