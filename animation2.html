@@ -88,7 +88,7 @@
             
 
             play();
-
+            detectColl();
             
             rockImage.src = 'spacerock.png';
                 
@@ -130,7 +130,7 @@
             rock_x += rock_move_x;  
                             
             rock_y += rock_move_y;
-            console.log("draw rock", rock_x, rock_y);
+            
             ctx2.drawImage(rockImage, rock_x, rock_y);
             requestAnimationFrame(rock);
         }
@@ -173,11 +173,30 @@
 
             //ctx.clearRect(0, 0, 2000, 2000);
             clear();
+            
             ctx.drawImage(spaceship, spaceship_x, spaceship_y);
             
             
             
         }
+
+        function detectColl()
+        {
+
+            
+            console.log("ship", spaceship_x, spaceship_y);
+            console.log("draw rock", rock_x, rock_y);
+
+            if (((spaceship_x > (rock_x - 25)) && (spaceship_x <  (rock_x + 100))) &&
+                (spaceship_y > (rock_y + 25)) && (spaceship_y <  (rock_y + 100)))
+            {
+                alert("Game over");
+            }
+
+
+
+            requestAnimationFrame(detectColl);
+        }    
 
     </script>
 
