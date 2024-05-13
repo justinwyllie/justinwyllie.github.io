@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+    <style>
+
+        body
+        {
+            min-height: 2000px;
+        }
+
+        .main
+        {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            position:absolute;
+            top: 500px;
+            left: 50px;
+        }
+
+    </style>
+    <script>
+            window.addEventListener('scroll', move);
+
+            //this moves the image of the tiger in relation to page scroll events
+            function move() {
+                var box = document.querySelector(".main");
+                var scrolled = window.pageYOffset;
+                box.style.top = (500 + scrolled) + 'px';
+            };
+
+
+    </script>
+</head>
+<body>
+
+    <div class="main">
+        some text here
+    </div>
+    
+</body>
+</html>
