@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Flex examples</title>
+    <style>
+
+        .flex-container
+        {
+            display: flex;
+            justify-content: space-between; /* try:  start, space-between, space-around center */
+            border: 2px solid rgb(5, 5, 5); 
+            /* width: max-content;
+            height: max-content; */
+            box-sizing: border-box;
+
+        }
+
+        .horizontal
+        {
+            flex-direction: row;
+        }
+
+        .vertical
+        {
+            flex-direction: column;
+            height: 500px;
+        }
+
+        .box
+        {
+            width: 100px;
+            height: 100px;
+        }
+
+        .pink
+        {
+            background-color: pink;
+        }
+
+        .green
+        {
+            background-color: green;
+        }
+
+
+
+    </style>
+
+
+
+
+</head>
+<body>
+    <h1>Flex demo</h1>
+
+    <a href="http://rt.com">
+        <button>press here</button>
+    </a>
+
+    <div class="flex-container horizontal">
+        <div class="box pink"></div>
+        <div class="box green"></div>
+        <div class="box pink"></div>
+    </div>
+
+    <div class="flex-container vertical">
+        <div class="box pink"></div>
+        <div class="box green"></div>
+        <div class="box pink"></div>
+    </div>
+    
+</body>
+</html>
