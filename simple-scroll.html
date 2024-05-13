@@ -17,7 +17,7 @@
             background-color: red;
             position:absolute;
             top: 500px;
-            left: 50px;
+            width: 1000px;
         }
 
     </style>
@@ -26,9 +26,12 @@
 
             //this moves the image of the tiger in relation to page scroll events
             function move() {
+                var controller = 1;
                 var box = document.querySelector(".main");
                 var scrolled = window.pageYOffset;
-                box.style.top = ((500 + scrolled)*.9) + 'px';
+                var width = 1000 - 3*scrolled;
+             
+                box.style.width = width + 'px';
             };
 
 
@@ -37,7 +40,7 @@
 <body>
 
     <div class="main">
-        some text here
+        
     </div>
     
 </body>
