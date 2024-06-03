@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+    .red
+    {
+        color: red;
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+
+//why this wrapper?
+
+addEventListener("DOMContentLoaded", function(event) {
+
+//notice the same CSS selectors you know and love
+var paras  = document.querySelectorAll("p");
+
+    paras.forEach(function(para) {
+        //what exactly does 'addEventListener do?
+        para.addEventListener("click", function(evt)
+        {
+            console.log(evt);
+            evt.target.classList.add('red');
+        })
+    })
+    //task make it go green on double click!!!!
+
+});
+
+
+</script>
+</head>
+<body>
+
+<p>If you click on me, I will disappear.</p>
+<p>Click me away!</p>
+<p>Click me too!</p>
+
+</body>
+</html>
