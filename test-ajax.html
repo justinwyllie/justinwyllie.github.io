@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Untitled</title>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	  
+	  <script>
+		  $(function() {
+			  
+			  $('#order_button').click(function() {
+
+					var order = $('#order').val();
+
+					$.ajax({
+							type: "POST",
+							url : '/test-ajax.php',
+							data: {data: order},
+							dataType: 'json',
+							success: function(response){
+								alert("You ordered " + response.result);
+
+							}
+					});
+
+			  });
+		  })
+	  </script>
+	  
+  </head>
+  <body>
+	  
+	  <form id="food_order">
+	  	<input id="order" name="order">
+		<button id="order_button" type="button">send order</button>
+	  </form>	
+	  
+
+  </body>
+</html>
